@@ -2,7 +2,7 @@ import { initializeApp } from "firebase/app";
 import { getFirestore, initializeFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
-console.log("heyybybebasas", process.env);
+console.log("heyybybebasas", process.env.NEXT_PUBLIC_API_KEY);
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_API_KEY,
