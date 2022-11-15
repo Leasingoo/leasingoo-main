@@ -47,8 +47,8 @@ export const RetailersListComponent = ({ car }: { car: any }) => {
       ["Efternamn"]: requestInfo["Efternamn"],
       ["E-post"]: requestInfo["E-post"],
       ["Telefonnummer"]: requestInfo["Telefonnummer"],
-      ["Retailer link"]: `${process.env.URL}/admin-add-new/retailer/${car[selectedRetailer].value}`,
-      ["Car link"]: `${process.env.URL}/car/${car["id"].value}`,
+      ["Retailer link"]: `${process.env.NEXT_PUBLIC_URL}/admin-add-new/retailer/${car[selectedRetailer].value}`,
+      ["Car link"]: `${process.env.NEXT_PUBLIC_URL}/car/${car["id"].value}`,
     });
 
     alert("Förfrågan skickad");

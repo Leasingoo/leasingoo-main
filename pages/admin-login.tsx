@@ -12,8 +12,8 @@ const AdminLogin = () => {
   const login = async () => {
     setLoading(true);
 
-    let initialUsername = process.env.ADMIN_USERNAME;
-    let initialPassword = process.env.ADMIN_PASSWORD;
+    let initialUsername = process.env.NEXT_PUBLIC_ADMIN_USERNAME;
+    let initialPassword = process.env.NEXT_PUBLIC_ADMIN_PASSWORD;
 
     if (username === initialUsername && password === initialPassword) {
       await window.localStorage.setItem("admin-status", "logged-in");
