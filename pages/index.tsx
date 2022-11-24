@@ -1,72 +1,88 @@
-import dynamic from "next/dynamic";
+import React, { useEffect, useRef, useState } from "react";
+import { Flex, Text } from "@chakra-ui/react";
+import { Header } from "../components/landing-page/Header";
+import { CarsList } from "../components/landing-page/CarsList";
+import { Footer } from "../components/landing-page/Footer";
+import { Navbar } from "../components/landing-page/Navbar";
+import Image from "next/image";
 
-const DynamicComponentWithNoSSR = dynamic(
-  () => import("../components/UpcomingComponent"),
-  {
-    ssr: false,
-  }
-);
+const LandingPage = () => {
+  return (
+    <Flex flexDir="column">
+      <Navbar />
+      <Flex pos="relative" w="100%" flexDir="column" mt={"90px"} mb={20}>
+        <Image
+          alt="header-image"
+          src={require("../assets/header-image.png")}
+          style={{ width: "100%", height: "auto" }}
+        />
+        <Text
+          color="#fff"
+          fontWeight="bold"
+          position={"absolute"}
+          fontSize="50px"
+          top={230}
+          left={400}
+          w={600}
+        >
+          Jämför privatleasing. Enkelt och{" "}
+          <span style={{ color: "#EF6D0A" }}>smart.</span>
+        </Text>
+      </Flex>
+    </Flex>
+  );
+};
 
-export default () => <DynamicComponentWithNoSSR />;
+export default LandingPage;
 
-// import React, { useEffect, useRef, useState } from "react";
-// import { Flex, Text } from "@chakra-ui/react";
-// import { Header } from "../components/landing-page/Header";
-// import { CarsList } from "../components/landing-page/CarsList";
-// import { Footer } from "../components/landing-page/Footer";
+// const [searchInput, setSearchInput] = useState("");
+// const filterButtonRef: any = useRef();
+// const inputFieldRef: any = useRef();
+// const [inputPosition, setInputPosition] = useState<any>("");
+// const [filterButtonPosition, setFilterButtonPosition] =
+//   useState<any>("absolute");
 
-// const LandingPage = () => {
-//   const [searchInput, setSearchInput] = useState("");
-//   const filterButtonRef: any = useRef();
-//   const inputFieldRef: any = useRef();
-//   const [inputPosition, setInputPosition] = useState<any>("");
-//   const [filterButtonPosition, setFilterButtonPosition] =
-//     useState<any>("absolute");
-
-//   function isInViewport(element: any) {
-//     if (element) {
-//       const rect = element.getBoundingClientRect();
-//       return rect.bottom >= 0;
-//     }
+// function isInViewport(element: any) {
+//   if (element) {
+//     const rect = element.getBoundingClientRect();
+//     return rect.bottom >= 0;
 //   }
+// }
 
-//   useEffect(() => {
-//     if (typeof window !== "undefined") {
-//       window.onscroll = () => {
-//         let visible1 = isInViewport(filterButtonRef.current);
-//         let visible2 = isInViewport(inputFieldRef.current);
+// useEffect(() => {
+//   if (typeof window !== "undefined") {
+//     window.onscroll = () => {
+//       let visible1 = isInViewport(filterButtonRef.current);
+//       let visible2 = isInViewport(inputFieldRef.current);
 
-//         if (visible2) {
-//           setInputPosition("");
-//         } else {
-//           setInputPosition("fixed");
-//         }
+//       if (visible2) {
+//         setInputPosition("");
+//       } else {
+//         setInputPosition("fixed");
+//       }
 
-//         if (visible1) {
-//           setFilterButtonPosition("absolute");
-//         } else {
-//           setFilterButtonPosition("fixed");
-//         }
-//       };
-//     }
-//   });
+//       if (visible1) {
+//         setFilterButtonPosition("absolute");
+//       } else {
+//         setFilterButtonPosition("fixed");
+//       }
+//     };
+//   }
+// });
 
-//   return (
-//     <Flex flexDir="column" width="100%" alignItems="center">
-//       <Header
-//         searchInput={searchInput}
-//         setSearchInput={setSearchInput}
-//         elementRef={inputFieldRef}
-//         inputPosition={inputPosition}
-//       />
-//       <CarsList
-//         searchInput={searchInput}
-//         elementRef2={filterButtonRef}
-//         filterButtonPosition={filterButtonPosition}
-//       />
-//       <Footer />
-//     </Flex>
-//   );
-// };
-
-// export default LandingPage;
+// return (
+//   <Flex flexDir="column" width="100%" alignItems="center">
+//     <Header
+//       searchInput={searchInput}
+//       setSearchInput={setSearchInput}
+//       elementRef={inputFieldRef}
+//       inputPosition={inputPosition}
+//     />
+//     <CarsList
+//       searchInput={searchInput}
+//       elementRef2={filterButtonRef}
+//       filterButtonPosition={filterButtonPosition}
+//     />
+//     <Footer />
+//   </Flex>
+// );
