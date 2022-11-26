@@ -1,24 +1,21 @@
 import Image from "next/image";
-import { Flex } from "@chakra-ui/react";
-import { collection, getDocs } from "firebase/firestore";
+import { Button, Flex, Text } from "@chakra-ui/react";
+import {
+  collection,
+  getCountFromServer,
+  getDocs,
+  limit,
+  query,
+} from "firebase/firestore";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { db } from "../../helpers/firebase/firebaseConfig";
 import { COLORS } from "../../helpers/globalColors";
-// import { isMobile } from "../../helpers/isMobile";
 import { CarsListItem } from "../items/CarsListItem";
 import { FilterModal, Filters } from "./FilterModal";
 import { motion } from "framer-motion";
 import { useMediaQuery } from "@material-ui/core";
 
-export const CarsList = ({
-  searchInput,
-  filterButtonPosition,
-  elementRef2,
-}: {
-  searchInput: string;
-  filterButtonPosition: string;
-  elementRef2: any;
-}) => {
+export const CarsList = ({ searchInput }: { searchInput: string }) => {
   const isMobile = useMediaQuery("(max-width:1400px)");
   const [cars, setCars] = useState<any[]>([]);
   const [filters, setFilters] = useState<Filters>({
@@ -29,16 +26,29 @@ export const CarsList = ({
     brand: [],
     driveModel: [],
   });
-  const [openFilterModel, setOpenFilterModel] = useState(false);
+  const [carsTotalNumber, setCarsTotalNumber] = useState<number | null>(null);
+  const [paginationLimit, setPaginationLimit] = useState(13);
+
+  const getTotalCars = async () => {
+    const snapshot = await getCountFromServer(collection(db, "cars"));
+
+    setCarsTotalNumber(snapshot.data().count);
+  };
 
   useEffect(() => {
-    getDocs(collection(db, "cars")).then((snapchot) => {
+    let carsQuery = query(collection(db, "cars"), limit(paginationLimit));
+
+    getDocs(carsQuery).then((snapchot) => {
       setCars([]);
 
       snapchot.forEach((childSnapchot) => {
         setCars((p: any) => [...p, childSnapchot.data()]);
       });
     });
+  }, [paginationLimit]);
+
+  useEffect(() => {
+    getTotalCars();
   }, []);
 
   const filterSearch = useCallback(
@@ -126,70 +136,16 @@ export const CarsList = ({
     ]
   );
 
-  useEffect(() => {
-    setOpenFilterModel(isMobile ? false : true);
-  }, [isMobile]);
-
   return (
-    <Flex
-      flexDir="column"
-      mt={-20}
-      w="100%"
-      alignItems="center"
-      minHeight={800}
-    >
-      <Flex position="absolute" top={0} ref={elementRef2} />
-
-      <Flex
-        position={filterButtonPosition as any}
-        bgColor={openFilterModel ? COLORS.ORANGE : "#fff"}
-        justifyContent="center"
-        alignItems="center"
-        borderRadius="100%"
-        borderWidth={2}
-        borderColor={COLORS.DARK_BLUE}
-        padding="5px"
-        right={isMobile ? 5 : 10}
-        top={
-          filterButtonPosition === "fixed"
-            ? isMobile
-              ? 7
-              : 5
-            : isMobile
-            ? 5
-            : 3
-        }
-        cursor="pointer"
-        onClick={() => {
-          setOpenFilterModel(!openFilterModel);
-        }}
-        zIndex={10}
-      >
-        <Image
-          alt="filter-icon"
-          src={require("../../assets/filter-icon.png")}
-          style={{
-            width: isMobile ? "25px" : "40px",
-            margin: "0.25rem",
-            height: isMobile ? "25px" : "40px",
-            objectFit: "contain",
-          }}
-        />
-      </Flex>
-
-      <FilterModal
-        isVisible={openFilterModel}
-        filters={filters}
-        setFilters={setFilters}
-        cars={cars}
-      />
+    <Flex flexDir="column" mt={20} w="100%" alignItems="center" minHeight={800}>
+      <FilterModal filters={filters} setFilters={setFilters} cars={cars} />
       <Flex
         pos="relative"
         flexDir="row"
         flexWrap="wrap"
         justifyContent="center"
-        width={isMobile ? "75%" : "50%"}
-        mb={20}
+        width={isMobile ? "75%" : "70%"}
+        mb={10}
         zIndex={2}
       >
         {cars.length > 0 &&
@@ -197,6 +153,45 @@ export const CarsList = ({
             <CarsListItem key={idx} car={item} />
           ))}
       </Flex>
+
+      {carsTotalNumber && (
+        <Flex
+          w="100%"
+          flexDir="column"
+          alignItems="center"
+          pb={40}
+          mb={20}
+          borderBottomWidth={3}
+          borderBottomColor="#F3F4F6"
+        >
+          <Text color="#15304B" mb={3} fontSize={18}>
+            {`Visar ${paginationLimit - 1} av ${carsTotalNumber}`}
+          </Text>
+
+          <Flex w={350} bgColor="#F3F4F6" h={1} borderRadius={50} mb={7}>
+            <Flex
+              w={`${Math.round(paginationLimit * 100) / carsTotalNumber}%`}
+              bgColor="#15304B"
+              h={1}
+              borderRadius={50}
+            />
+          </Flex>
+          <Button
+            borderRadius={50}
+            bgColor="#F3F4F6"
+            borderWidth={1}
+            borderColor="#000000"
+            p={"25px"}
+            onClick={() => {
+              if (paginationLimit !== carsTotalNumber) {
+                setPaginationLimit(carsTotalNumber + 1);
+              }
+            }}
+          >
+            Visa fler leasingbilar
+          </Button>
+        </Flex>
+      )}
     </Flex>
   );
 };

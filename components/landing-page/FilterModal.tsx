@@ -11,9 +11,8 @@ import {
 } from "@chakra-ui/react";
 import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
 import { COLORS } from "../../helpers/globalColors";
-// import { isMobile } from "../../helpers/isMobile";
-// import { motion } from "framer-motion";
 import { useMediaQuery } from "@material-ui/core";
+import Image from "next/image";
 
 export type Filters = {
   sort?: string;
@@ -23,13 +22,12 @@ export type Filters = {
   minPrice: number;
   maxPrice: number;
 };
+
 export const FilterModal = ({
-  isVisible,
   filters,
   setFilters,
   cars,
 }: {
-  isVisible: boolean;
   filters: Filters;
   setFilters: Dispatch<SetStateAction<Filters>>;
   cars: any[];
@@ -40,6 +38,21 @@ export const FilterModal = ({
     () => ["Bensin", "Elbil", "Hybrid", "Plugin Hybrid"],
     []
   );
+  const [filterButtons, setFilterButtons] = useState([
+    "Drivmedel",
+    "Drivlåda",
+    "Bilmärken",
+    "Pris",
+  ]);
+  const [sortingOptions, setSortingOptions] = useState([
+    "Mest relevanta",
+    "Pris - Lågt till Högt",
+    "Pris - Högt till Lågt",
+    "Namn - A till Ö",
+    "Namn - Ö till A",
+  ]);
+  const [selectedFilterOption, setSelectedFilterOption] = useState(0);
+  const [selectedFilter, setSelectedFilter] = useState("");
 
   const onChangeFilter = (type: string, value: string | number) => {
     setFilters((prevState) => ({ ...prevState, [type]: value }));
@@ -55,204 +68,314 @@ export const FilterModal = ({
     }));
   };
 
-  return (
-    <Flex
-      display={isVisible ? "" : "none"}
-      flexDir="column"
-      w={isMobile ? "95%" : "380px"}
-      position={"fixed"}
-      right={isMobile ? "" : 5}
-      top={130}
-      p={10}
-      bgColor={COLORS.DARK_BLUE}
-      boxShadow={"dark-lg"}
-      borderRadius={15}
-      justifyContent="center"
-      mt={-10}
-      zIndex={1000}
-    >
-      <Text
-        fontSize={30}
-        color="white"
-        fontWeight="bold"
-        mb={5}
-        textAlign="center"
-      >
-        Dröm<span style={{ color: COLORS.ORANGE }}>bilen</span>?
-      </Text>
-
-      <Flex flexDir="column" mb={5}>
-        <Text fontSize={20} fontWeight={600} color="white" mb={1}>
-          Sortering
-        </Text>
-
-        <Select
-          bgColor="#fff"
-          color={COLORS.DARK_BLUE}
-          fontWeight="bold"
-          onChange={(e) => onChangeFilter("sort", e.target.value)}
-          value={filters.sort}
-          borderRadius={10}
-        >
-          <option value={0}>Mest relevanta</option>
-          <option value={1}>Pris - Lågt till Högt</option>
-          <option value={2}>Pris - Högt till Lågt</option>
-          <option value={3}>Namn - A till Ö</option>
-          <option value={4}>Namn - Ö till A</option>
-        </Select>
-      </Flex>
-
-      <Flex flexDir="column" mb={5}>
-        <Text fontSize={20} fontWeight={600} color="white" mb={1}>
-          Drivlåda
-        </Text>
-
-        <Flex
-          flexDir="row"
-          width="100%"
-          h="50px"
-          bgColor="#fff"
-          borderRadius={10}
-          alignItems="center"
-          justifyContent="space-evenly"
-        >
-          {gearBoxOptions.map((item, idx) => (
-            <Flex
-              key={idx}
-              cursor="pointer"
-              alignItems="center"
-              onClick={() => {
-                if (filters.gearBox === item) {
-                  onChangeFilter("gearBox", "");
-                } else {
-                  onChangeFilter("gearBox", item);
-                }
-              }}
-            >
+  const displayFilter = (item: string) => {
+    switch (item) {
+      case "Drivmedel":
+        return (
+          <Flex
+            w={200}
+            pos="absolute"
+            flexDir="column"
+            bgColor="#fff"
+            zIndex={8}
+            boxShadow={"lg"}
+            borderRadius={20}
+            borderTopWidth={2}
+            borderTopColor="#F3F4F6"
+            mt={"80px"}
+          >
+            {driveModelList.map((item, idx) => (
               <Flex
-                w="25px"
-                h="25px"
-                mr="10px"
-                borderRadius="100%"
-                borderWidth={2}
-                borderColor={
-                  filters?.gearBox === item ? COLORS.ORANGE : COLORS.DARK_BLUE
-                }
-                bgColor={filters?.gearBox === item ? COLORS.ORANGE : "#fff"}
-              />
-              <Text
-                fontSize={18}
+                key={idx}
+                flexDir="row"
+                alignItems="center"
+                justifyContent="space-between"
+                p={"15px"}
                 fontWeight={600}
-                color={
-                  filters?.gearBox === item ? COLORS.ORANGE : COLORS.DARK_BLUE
-                }
+                borderRadius={10}
+                onClick={() => {
+                  onChangeFilterArray("driveModel", item);
+                }}
+                _hover={{ bgColor: "#F3F4F6" }}
+                cursor="pointer"
               >
-                {item}
+                <Text color={COLORS.DARK_BLUE}>{item}</Text>
+
+                <Flex
+                  w="25px"
+                  h="25px"
+                  borderRadius="100%"
+                  borderWidth={2}
+                  borderColor={COLORS.DARK_BLUE}
+                  bgColor={
+                    filters.driveModel?.includes(item) ? "#15304B" : "#fff"
+                  }
+                />
+              </Flex>
+            ))}
+          </Flex>
+        );
+
+      case "Drivlåda":
+        return (
+          <Flex
+            w={200}
+            pos="absolute"
+            flexDir="column"
+            justifyContent="center"
+            bgColor="#fff"
+            zIndex={8}
+            boxShadow={"lg"}
+            borderRadius={20}
+            borderTopWidth={2}
+            borderTopColor="#F3F4F6"
+            mt={"80px"}
+            p={5}
+          >
+            {gearBoxOptions.map((item, idx) => (
+              <Flex
+                key={idx}
+                flexDir="row"
+                justifyContent="space-between"
+                mb={idx === 0 ? 5 : 0}
+                cursor="pointer"
+                alignItems="center"
+                onClick={() => {
+                  if (filters.gearBox === item) {
+                    onChangeFilter("gearBox", "");
+                  } else {
+                    onChangeFilter("gearBox", item);
+                  }
+                }}
+              >
+                <Text fontSize={18} fontWeight={600}>
+                  {item}
+                </Text>
+
+                <Flex
+                  w="25px"
+                  h="25px"
+                  borderRadius="100%"
+                  borderWidth={2}
+                  borderColor={COLORS.DARK_BLUE}
+                  bgColor={
+                    filters?.gearBox === item ? COLORS.DARK_BLUE : "#fff"
+                  }
+                />
+              </Flex>
+            ))}
+          </Flex>
+        );
+
+      case "Bilmärken":
+        return (
+          <Flex
+            w={200}
+            pos="absolute"
+            flexDir="column"
+            justifyContent="center"
+            bgColor="#fff"
+            zIndex={8}
+            boxShadow={"lg"}
+            borderRadius={20}
+            borderTopWidth={2}
+            borderTopColor="#F3F4F6"
+            mt={"80px"}
+            p={5}
+          >
+            {cars.length > 0 &&
+              cars
+                .map((e) => e["Bilmärke"].value)
+                .filter((value, index, array) => array.indexOf(value) === index)
+                .map((item, idx) => (
+                  <Flex
+                    key={idx}
+                    flexDir="row"
+                    justifyContent="space-between"
+                    onClick={() => {
+                      onChangeFilterArray("brand", item);
+                    }}
+                    p="15px"
+                    cursor="pointer"
+                    _hover={{ backgroundColor: "#F3F4F6" }}
+                  >
+                    <Text color={COLORS.DARK_BLUE}>{item}</Text>
+
+                    <Flex
+                      w="25px"
+                      h="25px"
+                      borderRadius="100%"
+                      borderWidth={2}
+                      borderColor={COLORS.DARK_BLUE}
+                      bgColor={
+                        filters.brand?.includes(item) ? "#15304B" : "#fff"
+                      }
+                    />
+                  </Flex>
+                ))}
+          </Flex>
+        );
+
+      case "Pris":
+        return (
+          <Flex
+            w={300}
+            pos="absolute"
+            flexDir="column"
+            justifyContent="center"
+            bgColor="#fff"
+            zIndex={8}
+            boxShadow={"lg"}
+            borderRadius={20}
+            borderTopWidth={2}
+            borderTopColor="#F3F4F6"
+            mt={"80px"}
+            pl={10}
+            pr={10}
+            pt={5}
+            pb={5}
+          >
+            <Flex
+              mb={5}
+              w="100%"
+              flexDir="row"
+              alignItems="center"
+              justifyContent="space-between"
+            >
+              <Text color={COLORS.DARK_BLUE} fontWeight="500">
+                {filters.minPrice} SEK
+              </Text>
+              <Text color={COLORS.DARK_BLUE} fontWeight="500">
+                {filters.maxPrice} SEK
               </Text>
             </Flex>
-          ))}
-        </Flex>
-      </Flex>
 
-      <Flex flexDir="column" mb={5}>
-        <Text fontSize={20} fontWeight={600} color="white" mb={1}>
-          Drivmedel
-        </Text>
-
-        <Flex flexDir="row" alignItems="center" flexWrap="wrap">
-          {driveModelList.map((item, idx) => (
-            <Button
-              key={idx}
-              bgColor={
-                filters.driveModel?.includes(item) ? COLORS.ORANGE : "#fff"
-              }
-              color={COLORS.DARK_BLUE}
-              onClick={() => {
-                onChangeFilterArray("driveModel", item);
+            <RangeSlider
+              aria-label={["min", "max"]}
+              defaultValue={[0, 100]}
+              size="lg"
+              mb="10px"
+              onChange={(e) => {
+                onChangeFilter("minPrice", ~~((e[0] * 7500) / 100));
+                onChangeFilter("maxPrice", ~~((e[1] * 7500) / 100));
               }}
-              m="5px"
-              fontWeight={600}
-              _hover={{}}
-              borderRadius={10}
-              h="35px"
-              pl="20px"
-              pr="20px"
             >
-              {item}
-            </Button>
-          ))}
-        </Flex>
-      </Flex>
+              <RangeSliderTrack bgColor="#d6d4d4">
+                <RangeSliderFilledTrack bgColor={COLORS.DARK_BLUE} />
+              </RangeSliderTrack>
+              <RangeSliderThumb index={0} bgColor={COLORS.DARK_BLUE} />
+              <RangeSliderThumb index={1} bgColor={COLORS.DARK_BLUE} />
+            </RangeSlider>
+          </Flex>
+        );
+      case "Sortera efter":
+    }
 
-      <Flex flexDir="column" mb={5}>
-        <Text fontSize={20} fontWeight={600} color="white" mb={1}>
-          Bilmärken
-        </Text>
-
-        <Flex flexDir="row" alignItems="center" flexWrap="wrap">
-          {cars.length > 0 &&
-            cars
-              .map((e) => e["Bilmärke"].value)
-              .filter((value, index, array) => array.indexOf(value) === index)
-              .map((item, idx) => (
-                <Button
-                  key={idx}
-                  bgColor={
-                    filters.brand?.includes(item) ? COLORS.ORANGE : "#fff"
-                  }
-                  color={COLORS.DARK_BLUE}
-                  onClick={() => {
-                    onChangeFilterArray("brand", item);
-                  }}
-                  m="5px"
-                  fontWeight={600}
-                  _hover={{}}
-                  borderRadius={10}
-                  h="35px"
-                  pl="20px"
-                  pr="20px"
-                >
-                  {item}
-                </Button>
-              ))}
-        </Flex>
-      </Flex>
-
-      <Flex flexDir="column" mb={5}>
-        <Text fontSize={20} fontWeight={600} color="white" mb={1}>
-          Prisintervall
-        </Text>
-
-        <Flex
-          flexDir="column"
-          w="100%"
-          bgColor="#fff"
-          justifyContent="center"
-          alignItems="center"
-          p={8}
-          borderRadius={10}
-        >
-          <RangeSlider
-            aria-label={["min", "max"]}
-            defaultValue={[0, 100]}
-            size="lg"
-            mb="10px"
-            onChange={(e) => {
-              onChangeFilter("minPrice", ~~((e[0] * 7500) / 100));
-              onChangeFilter("maxPrice", ~~((e[1] * 7500) / 100));
+    return (
+      <Flex
+        w={350}
+        pos="absolute"
+        flexDir="column"
+        justifyContent="center"
+        bgColor="#fff"
+        zIndex={8}
+        boxShadow={"lg"}
+        borderRadius={20}
+        borderTopWidth={2}
+        borderTopColor="#F3F4F6"
+        mt={"80px"}
+        p={5}
+      >
+        {sortingOptions.map((item, idx) => (
+          <Flex
+            key={idx}
+            flexDir="row"
+            alignItems="center"
+            justifyContent="space-between"
+            p={"15px"}
+            fontWeight={600}
+            borderRadius={10}
+            onClick={() => {
+              setSelectedFilterOption(idx);
+              onChangeFilter("sort", idx.toString());
             }}
+            _hover={{ bgColor: "#F3F4F6" }}
+            cursor="pointer"
           >
-            <RangeSliderTrack bgColor="#d6d4d4">
-              <RangeSliderFilledTrack bgColor={COLORS.DARK_BLUE} />
-            </RangeSliderTrack>
-            <RangeSliderThumb index={0} bgColor={COLORS.DARK_BLUE} />
-            <RangeSliderThumb index={1} bgColor={COLORS.DARK_BLUE} />
-          </RangeSlider>
+            <Text color={COLORS.DARK_BLUE}>{item}</Text>
 
-          <Text color={COLORS.DARK_BLUE} fontWeight="bold">
-            {filters.minPrice} kr / mån — {filters.maxPrice} kr / mån
-          </Text>
-        </Flex>
+            <Flex
+              w="25px"
+              h="25px"
+              borderRadius="100%"
+              borderWidth={2}
+              borderColor={COLORS.DARK_BLUE}
+              bgColor={selectedFilterOption === idx ? "#15304B" : "#fff"}
+            />
+          </Flex>
+        ))}
+      </Flex>
+    );
+  };
+
+  return (
+    <Flex
+      flexDir="row"
+      width="60%"
+      alignItems="center"
+      justifyContent="space-between"
+      mb={10}
+    >
+      <Flex flexDir="row" w="50%">
+        {filterButtons.map((item, i) => (
+          <Flex flexDir="column" alignItems={"center"}>
+            <Button
+              borderRadius={50}
+              bgColor="#F3F4F6"
+              p={25}
+              m={5}
+              borderWidth={2}
+              borderColor={selectedFilter === item ? "#15304B" : ""}
+              onClick={() => {
+                setSelectedFilter(selectedFilter === item ? "" : item);
+              }}
+            >
+              <Text>{item}</Text>
+              <Image
+                style={{ margin: 3 }}
+                alt="arrow-down"
+                src={require("../../assets/arrow-down-icon.png")}
+              />
+            </Button>
+
+            {selectedFilter === item && displayFilter(item)}
+          </Flex>
+        ))}
+      </Flex>
+
+      <Flex flexDir="column" alignItems={"center"}>
+        <Button
+          borderRadius={50}
+          bgColor="#F3F4F6"
+          p={25}
+          m={5}
+          borderWidth={2}
+          borderColor={selectedFilter === "Sortera efter" ? "#15304B" : ""}
+          onClick={() => {
+            setSelectedFilter(
+              selectedFilter === "Sortera efter" ? "" : "Sortera efter"
+            );
+          }}
+        >
+          <Text>Sortera efter</Text>
+          <Image
+            style={{ margin: 3 }}
+            alt="arrow-down"
+            src={require("../../assets/arrow-down-icon.png")}
+          />
+        </Button>
+
+        {selectedFilter === "Sortera efter" && displayFilter("Sortera efter")}
       </Flex>
     </Flex>
   );
