@@ -1,37 +1,37 @@
 import Image from "next/image";
 import { Flex, Text } from "@chakra-ui/react";
-import { useState } from "react";
-import { userStepsData } from "../../helpers/footer/userStepsData";
+import { useEffect, useState } from "react";
 import { COLORS } from "../../helpers/globalColors";
-// import { isMobile } from "../../helpers/isMobile";
 import { SocialMediaButtonItem } from "../items/SocialMediaButtonItem";
-// import { UserStepsItem } from "../items/UserStepsItem";
 import { useMediaQuery } from "@material-ui/core";
+import { footerSocialMedia } from "../../helpers/static-data/landingPageData";
 
 export const Footer = ({ showSteps }: { showSteps?: boolean }) => {
   const isMobile = useMediaQuery("(max-width:1400px)");
-  const [socialMedia, setSocialMedia] = useState([
-    {
-      name: "twitter",
-      icon: require("../../assets/twitter-icon.png"),
-      url: "https://twitter.com/leasingoo",
-    },
-    {
-      name: "faceboook",
-      icon: require("../../assets/facebook-icon.png"),
-      url: "https://www.facebook.com/Leasingoo/",
-    },
-    {
-      name: "instagram",
-      icon: require("../../assets/instagram-icon.png"),
-      url: "https://www.instagram.com/leasingoo/",
-    },
-    {
-      name: "youtube",
-      icon: require("../../assets/youtube-icon.png"),
-      url: "https://youtube.com",
-    },
+  const [privateLeasingLinks, setPrivateLeasingLinks] = useState([
+    { name: "Jämför leasing", link: "" },
+    { name: "Bilhandlare", link: "" },
+    { name: "Bilmärken", link: "" },
+    { name: "Om privatleasing", link: "" },
+    { name: "Försäkring", link: "" },
+    { name: "Garantier", link: "" },
+    { name: "Elbilar", link: "" },
   ]);
+  const [leasingooLinks, setLeasingooLinks] = useState([
+    { name: "Företagslösningar", link: "" },
+    { name: "Om oss", link: "" },
+    { name: "Kontakta oss", link: "" },
+  ]);
+
+  const scrollTop = () => {
+    if (typeof window !== "undefined") {
+      window.scroll({
+        top: 0,
+        left: 0,
+        behavior: "smooth",
+      });
+    }
+  };
 
   return (
     <Flex
@@ -42,6 +42,25 @@ export const Footer = ({ showSteps }: { showSteps?: boolean }) => {
       p={10}
     >
       <Flex
+        position="absolute"
+        bgColor="#EF6D0A"
+        bottom={5}
+        left={5}
+        w="60px"
+        h="60px"
+        justifyContent="center"
+        alignItems="center"
+        borderRadius={50}
+        cursor="pointer"
+        onClick={scrollTop}
+      >
+        <Image
+          alt={"arrow-top"}
+          src={require("../../assets/arrow-top-icon.png")}
+        />
+      </Flex>
+
+      <Flex
         flexDir={isMobile ? "column" : "row"}
         width="60%"
         justifyContent="space-around"
@@ -51,60 +70,46 @@ export const Footer = ({ showSteps }: { showSteps?: boolean }) => {
           <Image
             alt="app-logo"
             src={require("../../assets/app-logo.png")}
-            style={{ width: 200, height: 54, marginBottom: "1.25rem" }}
+            style={{ width: 200, height: 54, marginBottom: 50 }}
           />
           <Flex flexDir="row" alignItems="center">
-            {socialMedia.map((item, idx) => (
+            {footerSocialMedia.map((item, idx) => (
               <SocialMediaButtonItem key={idx} item={item} />
             ))}
           </Flex>
         </Flex>
 
-        <Flex flexDir={isMobile ? "column" : "row"} alignItems="center">
+        <Flex flexDir={isMobile ? "column" : "row"}>
           <Flex
             flexDir="column"
             ml={isMobile ? 0 : "120px"}
-            alignItems="center"
+            alignItems="flex-start"
             mb={isMobile ? 10 : 0}
           >
             <Text color="#fff" fontWeight="bold" fontSize={25} mb={2}>
-              Öppettider
+              Privatleasing
             </Text>
-            <Text color="#fff" fontSize={16}>
-              Mån - Fre
-            </Text>
-            <Text color="#fff" fontSize={16} mb={5} fontWeight={200}>
-              09.00 - 18.00
-            </Text>
-            <Text color="#fff" fontSize={16}>
-              Lör - Sön
-            </Text>
-            <Text color="#fff" fontSize={16} fontWeight={200}>
-              09.00 - 16.00
-            </Text>
+
+            {privateLeasingLinks.map((item, i) => (
+              <Text color="#fff" fontSize={16} mb={2} cursor="pointer">
+                {item.name}
+              </Text>
+            ))}
           </Flex>
 
           <Flex
             flexDir="column"
             ml={isMobile ? 0 : "120px"}
-            alignItems="center"
             mb={isMobile ? 10 : 0}
           >
             <Text color="#fff" fontWeight="bold" fontSize={25} mb={2}>
-              Kontakt
+              Leasingoo
             </Text>
-            <Text color="#fff" fontSize={16}>
-              Telefon
-            </Text>
-            <Text color="#fff" fontSize={16} mb={5} fontWeight={200}>
-              072 00 33 333
-            </Text>
-            <Text color="#fff" fontSize={16}>
-              E-post
-            </Text>
-            <Text color="#fff" fontSize={16} fontWeight={200}>
-              kontakt@leasingoo.se
-            </Text>
+            {leasingooLinks.map((item, i) => (
+              <Text color="#fff" fontSize={16} mb={2} cursor="pointer">
+                {item.name}
+              </Text>
+            ))}
           </Flex>
         </Flex>
       </Flex>

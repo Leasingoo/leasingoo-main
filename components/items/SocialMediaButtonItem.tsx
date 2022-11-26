@@ -16,7 +16,7 @@ export const SocialMediaButtonItem = ({
   return (
     <a href={item.url} target="_blank">
       <Flex
-        backgroundColor={COLORS.ORANGE}
+        backgroundColor={"#fff"}
         width={8}
         height={8}
         justifyContent="center"
@@ -29,8 +29,8 @@ export const SocialMediaButtonItem = ({
           alt="social-media-icon"
           src={item.icon}
           style={{
-            width: item.name === "instagram" ? "2rem" : "1rem",
-            height: item.name === "instagram" ? "2rem" : "1rem",
+            width: "1rem",
+            height: "1rem",
           }}
         />
       </Flex>
