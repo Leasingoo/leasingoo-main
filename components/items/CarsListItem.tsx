@@ -14,10 +14,13 @@ export const CarsListItem = ({ car }: { car: any }) => {
   return (
     <motion.div
       style={{
+        display: "flex",
         position: "relative",
         flexDirection: "column",
-        width: isMobile ? "100%" : "250px",
-        height: isMobile ? "" : "350px",
+        alignItems: isMobile ? "center" : "",
+        justifyContent: isMobile ? "center" : "",
+        width: isMobile ? "45%" : "250px",
+        height: isMobile ? "300px" : "auto",
         boxShadow: "0px 0px 40px rgba(0, 0, 0, 0.07)",
         borderRadius: 15,
         marginRight: isMobile ? 0 : "30px",
@@ -37,7 +40,7 @@ export const CarsListItem = ({ car }: { car: any }) => {
         setDisplayWings(false);
       }}
     >
-      {displayWings && (
+      {(isMobile ? true : displayWings) && (
         <NextImage
           alt="car-wings-icon"
           style={{
@@ -49,15 +52,19 @@ export const CarsListItem = ({ car }: { car: any }) => {
             backgroundColor: "#fff",
             borderRadius: 15,
           }}
-          src={require("../../assets/card-wing-one.png")}
+          src={require(`../../assets/${
+            isMobile ? "card-wing" : "card-wing-one"
+          }.png`)}
         />
       )}
 
       <Image
+        pos="absolute"
+        top={3}
         maxH={"35px"}
         maxW={"100px"}
         // src={car["carBrandImageLink"].value}
-        pl={5}
+        pl={isMobile ? 0 : 5}
         src="https://firebasestorage.googleapis.com/v0/b/leasingoo.appspot.com/o/09cdc152%2FcarBrandImage?alt=media&token=81c7fe54-1d16-4f7c-b303-f7da6ca9980c"
         objectFit={"contain"}
       />
@@ -67,18 +74,23 @@ export const CarsListItem = ({ car }: { car: any }) => {
         // src={car["carImageLink"].value}
         src="https://firebasestorage.googleapis.com/v0/b/leasingoo.appspot.com/o/09cdc152%2FcarImage?alt=media&token=0f8492bc-863a-487f-829b-c411aa29760f"
         objectFit={"contain"}
-        mb={10}
+        mb={isMobile ? 5 : 10}
+        mt={5}
       />
 
       <Text
         color={COLORS.DARK_BLUE}
         fontWeight={400}
-        fontSize={17}
-        mb={"20px"}
-        pl={5}
-        w="95%"
+        fontSize={isMobile ? 15 : 17}
+        mb={"70px"}
+        pl={isMobile ? 0 : 5}
+        w={isMobile ? "70%" : "95%"}
+        textAlign="center"
       >
-        {car["Namn"].value}
+        {isMobile
+          ? car["Namn"].value.substring(0, 14) +
+            (car["Namn"].value.split("").length > 13 ? "..." : "")
+          : car["Namn"].value}
       </Text>
 
       <Text
@@ -86,7 +98,7 @@ export const CarsListItem = ({ car }: { car: any }) => {
         color={COLORS.DARK_BLUE}
         fontWeight={600}
         fontSize={20}
-        pl={5}
+        pl={isMobile ? 0 : 5}
         mb="20px"
         bottom={0}
       >

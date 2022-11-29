@@ -11,54 +11,101 @@ import {
   landingFooterData,
   landingSteps,
 } from "../helpers/static-data/landingPageData";
+import { useMediaQuery } from "@material-ui/core";
 
 const LandingPage = () => {
   const [searchInput, setSearchInput] = useState("");
+  const isMobile = useMediaQuery("(max-width:1400px)");
 
   return (
     <Flex flexDir="column" scrollBehavior="smooth">
       <Navbar />
-      <Flex pos="relative" w="100%" flexDir="column" mt={"90px"}>
-        <Image
-          alt="header-image"
-          src={require("../assets/header-image.png")}
-          style={{ width: "100%", height: "auto" }}
-        />
-        <Text
-          color="#fff"
-          fontWeight="bold"
-          position={"absolute"}
-          fontSize="50px"
-          top={230}
-          left={400}
-          w={600}
-        >
-          Jämför privatleasing. Enkelt och{" "}
-          <span style={{ color: "#EF6D0A" }}>smart.</span>
-        </Text>
+      <Flex
+        pos="relative"
+        w="100%"
+        flexDir="column"
+        mt={"90px"}
+        alignItems="center"
+      >
+        {!isMobile && (
+          <Image
+            alt="header-image"
+            src={require("../assets/header-image.png")}
+            style={{ width: "100%", height: "auto" }}
+          />
+        )}
+        {isMobile ? (
+          <Flex
+            w="100%"
+            flexDir="column"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Text color="#15304B" fontWeight="bold" fontSize={"30px"} mb={3}>
+              Jämför <span style={{ color: "#EF6D0A" }}>privatleasing</span>
+            </Text>
+            <Text color="#15304B" textAlign="start" w="80%">
+              Hitta enkelt din drömbil genom att filtrera och jämföra bilar hos
+              oss.
+            </Text>
+          </Flex>
+        ) : (
+          <Text
+            color="#fff"
+            fontWeight="bold"
+            position={"absolute"}
+            fontSize="50px"
+            top={230}
+            left={400}
+            w={600}
+          >
+            Jämför privatleasing. Enkelt och{" "}
+            <span style={{ color: "#EF6D0A" }}>smart.</span>
+          </Text>
+        )}
       </Flex>
 
       <CarsList searchInput={searchInput} />
 
       <Flex flexDir="column" w="100%" alignItems="center" mb={20}>
-        <Text color="#15304B" fontSize="40px" fontWeight="bold" mb="100px">
-          Enkelt att hitta rätt bil
-        </Text>
+        {isMobile ? (
+          <Text
+            color="#15304B"
+            fontSize={isMobile ? "30px" : "40px"}
+            fontWeight="bold"
+            mb="100px"
+            textAlign={"center"}
+          >
+            Enkelt att hitta <br />
+            <span style={{ color: "#EF6D0A" }}>rätt bil</span>
+          </Text>
+        ) : (
+          <Text
+            color="#15304B"
+            fontSize={isMobile ? "30px" : "40px"}
+            fontWeight="bold"
+            mb="100px"
+            textAlign={"center"}
+          >
+            Enkelt att hitta rätt bil
+          </Text>
+        )}
 
         <Flex
-          flexDir="row"
-          w={"80%"}
-          alignItems="flex-start"
-          justifyContent="space-between"
+          flexDir={isMobile ? "column" : "row"}
+          w={isMobile ? "100%" : "80%"}
+          alignItems={isMobile ? "center" : "flex-start"}
+          justifyContent={isMobile ? "center" : "space-between"}
         >
           {landingSteps.map((item, i) => (
             <Flex
               key={i}
               flexDir="column"
-              w="20%"
+              w={isMobile ? "80%" : "20%"}
               justifyContent="center"
               alignItems="center"
               borderRadius={50}
+              mb={isMobile ? 20 : 0}
             >
               <Flex
                 w="50px"
@@ -67,18 +114,27 @@ const LandingPage = () => {
                 alignItems="center"
                 borderRadius={50}
                 bgColor="#15304B"
-                mb={20}
+                mb={isMobile ? 5 : 20}
               >
                 <Text color="#fff" fontWeight="bold">
                   {i + 1}
                 </Text>
               </Flex>
 
-              <Flex flexDir="column">
-                <Text color="#15304B" fontWeight="bold" fontSize={20}>
+              <Flex flexDir="column" alignItems={isMobile ? "" : "center"}>
+                <Text
+                  color="#15304B"
+                  fontWeight="bold"
+                  fontSize={20}
+                  textAlign={isMobile ? "center" : "start"}
+                >
                   {item.title}
                 </Text>
-                <Text color="#15304B" fontSize={16}>
+                <Text
+                  color="#15304B"
+                  fontSize={16}
+                  textAlign={isMobile ? "center" : "start"}
+                >
                   {item.text}
                 </Text>
               </Flex>
@@ -100,10 +156,15 @@ const LandingPage = () => {
             bgColor={item.bgColor}
             justifyContent="center"
             alignItems="center"
-            p={150}
+            p={isMobile ? 10 : 150}
           >
-            <Flex flexDir="column" w="50%">
-              <Text color="#fff" fontSize={"40px"} fontWeight="bold" mb={10}>
+            <Flex flexDir="column" w={isMobile ? "100%" : "50%"}>
+              <Text
+                color="#fff"
+                fontSize={isMobile ? "30px" : "40px"}
+                fontWeight="bold"
+                mb={isMobile ? 5 : 10}
+              >
                 {item.title}
                 {item.br && <br />}
                 <span style={{ color: item.buttonColor }}>
@@ -111,7 +172,7 @@ const LandingPage = () => {
                 </span>
               </Text>
               <Text
-                fontSize={20}
+                fontSize={isMobile ? 18 : 20}
                 color="#fff"
                 fontWeight={400}
                 textAlign="start"
@@ -123,7 +184,7 @@ const LandingPage = () => {
                 flexDir="row"
                 alignItems="center"
                 justifyContent="space-evenly"
-                w="40%"
+                w={isMobile ? "100%" : "40%"}
                 bgColor={item.buttonColor}
                 borderRadius={40}
                 p={7}

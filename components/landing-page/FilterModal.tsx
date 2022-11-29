@@ -82,7 +82,9 @@ export const FilterModal = ({
             borderRadius={20}
             borderTopWidth={2}
             borderTopColor="#F3F4F6"
-            mt={"80px"}
+            mt={"100px"}
+            left="50%"
+            transform={"translate(-50%, 0%)"}
           >
             {driveModelList.map((item, idx) => (
               <Flex
@@ -129,7 +131,9 @@ export const FilterModal = ({
             borderRadius={20}
             borderTopWidth={2}
             borderTopColor="#F3F4F6"
-            mt={"80px"}
+            mt={"100px"}
+            left="50%"
+            transform={"translate(-50%, 0%)"}
             p={5}
           >
             {gearBoxOptions.map((item, idx) => (
@@ -180,7 +184,9 @@ export const FilterModal = ({
             borderRadius={20}
             borderTopWidth={2}
             borderTopColor="#F3F4F6"
-            mt={"80px"}
+            mt={"100px"}
+            left="50%"
+            transform={"translate(-50%, 0%)"}
             p={5}
           >
             {cars.length > 0 &&
@@ -229,7 +235,9 @@ export const FilterModal = ({
             borderRadius={20}
             borderTopWidth={2}
             borderTopColor="#F3F4F6"
-            mt={"80px"}
+            mt={"100px"}
+            left="50%"
+            transform={"translate(-50%, 0%)"}
             pl={10}
             pr={10}
             pt={5}
@@ -283,7 +291,9 @@ export const FilterModal = ({
         borderRadius={20}
         borderTopWidth={2}
         borderTopColor="#F3F4F6"
-        mt={"80px"}
+        mt={"100px"}
+        left="50%"
+        transform={"translate(-50%, 0%)"}
         p={5}
       >
         {sortingOptions.map((item, idx) => (
@@ -321,62 +331,99 @@ export const FilterModal = ({
   return (
     <Flex
       flexDir="row"
-      width="60%"
+      width={isMobile ? "100%" : "60%"}
       alignItems="center"
       justifyContent="space-between"
       mb={10}
+      overflowX={isMobile ? "auto" : "hidden"}
     >
-      <Flex flexDir="row" w="50%">
+      <Flex flexDir="row" w={isMobile ? "100%" : "50%"}>
         {filterButtons.map((item, i) => (
-          <Flex flexDir="column" alignItems={"center"}>
-            <Button
-              borderRadius={50}
-              bgColor="#F3F4F6"
-              p={25}
-              m={5}
-              borderWidth={2}
-              borderColor={selectedFilter === item ? "#15304B" : ""}
-              onClick={() => {
-                setSelectedFilter(selectedFilter === item ? "" : item);
-              }}
-            >
-              <Text>{item}</Text>
-              <Image
-                style={{ margin: 3 }}
-                alt="arrow-down"
-                src={require("../../assets/arrow-down-icon.png")}
-              />
-            </Button>
-
+          <>
+            <Flex flexDir="column" alignItems={"center"}>
+              <Button
+                borderRadius={50}
+                bgColor="#F3F4F6"
+                p={25}
+                m={5}
+                borderWidth={2}
+                borderColor={selectedFilter === item ? "#15304B" : ""}
+                onClick={() => {
+                  setSelectedFilter(selectedFilter === item ? "" : item);
+                }}
+              >
+                <Text>{item}</Text>
+                {!isMobile && (
+                  <Image
+                    style={{ margin: 3 }}
+                    alt="arrow-down"
+                    src={require("../../assets/arrow-down-icon.png")}
+                  />
+                )}
+              </Button>
+            </Flex>
             {selectedFilter === item && displayFilter(item)}
-          </Flex>
+          </>
         ))}
+
+        {isMobile && (
+          <>
+            <Flex flexDir="column" alignItems={"center"}>
+              <Button
+                borderRadius={50}
+                bgColor="#F3F4F6"
+                p={25}
+                m={5}
+                borderWidth={2}
+                borderColor={
+                  selectedFilter === "Sortera efter" ? "#15304B" : ""
+                }
+                onClick={() => {
+                  setSelectedFilter(
+                    selectedFilter === "Sortera efter" ? "" : "Sortera efter"
+                  );
+                }}
+              >
+                <Text>Sortera efter</Text>
+                <Image
+                  style={{ margin: 3 }}
+                  alt="arrow-down"
+                  src={require("../../assets/arrow-down-icon.png")}
+                />
+              </Button>
+            </Flex>
+            {selectedFilter === "Sortera efter" &&
+              displayFilter("Sortera efter")}
+          </>
+        )}
       </Flex>
 
-      <Flex flexDir="column" alignItems={"center"}>
-        <Button
-          borderRadius={50}
-          bgColor="#F3F4F6"
-          p={25}
-          m={5}
-          borderWidth={2}
-          borderColor={selectedFilter === "Sortera efter" ? "#15304B" : ""}
-          onClick={() => {
-            setSelectedFilter(
-              selectedFilter === "Sortera efter" ? "" : "Sortera efter"
-            );
-          }}
-        >
-          <Text>Sortera efter</Text>
-          <Image
-            style={{ margin: 3 }}
-            alt="arrow-down"
-            src={require("../../assets/arrow-down-icon.png")}
-          />
-        </Button>
+      {!isMobile && (
+        <Flex flexDir="column" alignItems={"center"}>
+          <Button
+            borderRadius={50}
+            bgColor="#F3F4F6"
+            p={25}
+            m={5}
+            borderWidth={2}
+            borderColor={selectedFilter === "Sortera efter" ? "#15304B" : ""}
+            onClick={() => {
+              setSelectedFilter(
+                selectedFilter === "Sortera efter" ? "" : "Sortera efter"
+              );
+            }}
+          >
+            <Text>Sortera efter</Text>
+            <Image
+              style={{ margin: 3 }}
+              alt="arrow-down"
+              src={require("../../assets/arrow-down-icon.png")}
+            />
+          </Button>
 
-        {selectedFilter === "Sortera efter" && displayFilter("Sortera efter")}
-      </Flex>
+          {selectedFilter === "Sortera efter" && displayFilter("Sortera efter")}
+        </Flex>
+      )}
     </Flex>
   );
 };

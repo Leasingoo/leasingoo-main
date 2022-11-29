@@ -9,10 +9,8 @@ import {
 } from "firebase/firestore";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { db } from "../../helpers/firebase/firebaseConfig";
-import { COLORS } from "../../helpers/globalColors";
 import { CarsListItem } from "../items/CarsListItem";
 import { FilterModal, Filters } from "./FilterModal";
-import { motion } from "framer-motion";
 import { useMediaQuery } from "@material-ui/core";
 
 export const CarsList = ({ searchInput }: { searchInput: string }) => {
@@ -137,14 +135,21 @@ export const CarsList = ({ searchInput }: { searchInput: string }) => {
   );
 
   return (
-    <Flex flexDir="column" mt={20} w="100%" alignItems="center" minHeight={800}>
+    <Flex
+      flexDir="column"
+      mt={isMobile ? 5 : 20}
+      w="100%"
+      alignItems="center"
+      minHeight={800}
+    >
       <FilterModal filters={filters} setFilters={setFilters} cars={cars} />
+
       <Flex
         pos="relative"
         flexDir="row"
         flexWrap="wrap"
-        justifyContent="center"
-        width={isMobile ? "75%" : "70%"}
+        justifyContent={isMobile ? "space-evenly" : "center"}
+        width={isMobile ? "100%" : "70%"}
         mb={10}
         zIndex={2}
       >

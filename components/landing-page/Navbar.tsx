@@ -1,4 +1,5 @@
 import { Flex, Input, Text } from "@chakra-ui/react";
+import { useMediaQuery } from "@material-ui/core";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -9,59 +10,65 @@ export const Navbar = () => {
     { name: "Bilhandlare", url: "", icon: "retailers-icon" },
     { name: "Kontakt", url: "", icon: "contact-icon" },
   ]);
-
   const [selectedNavItem, setSelectedNavItem] = useState("Bilar");
+  const isMobile = useMediaQuery("(max-width:1400px)");
 
   return (
     <Flex
+      boxShadow="dark-lg"
       pos="fixed"
       bgColor="#fff"
-      top={0}
+      top={isMobile ? "" : 0}
+      bottom={isMobile ? 0 : ""}
       flexDir="row"
       alignItems="center"
       justifyContent="space-between"
       width="100%"
-      height={"90px"}
-      paddingRight={10}
-      paddingLeft={10}
-      borderBottomWidth={1}
-      borderBottomColor="#d2d2d8"
+      height={isMobile ? "80px" : "90px"}
+      paddingRight={isMobile ? 0 : 10}
+      paddingLeft={isMobile ? 0 : 10}
       zIndex={10}
     >
-      <Flex flexDir="row" cursor="pointer" alignItems="center">
-        <Image alt="menu-icon" src={require("../../assets/menu-icon.png")} />
-        <Text color="#15304B" margin={3}>
-          Meny
-        </Text>
-      </Flex>
+      {!isMobile && (
+        <Flex flexDir="row" cursor="pointer" alignItems="center">
+          <Image alt="menu-icon" src={require("../../assets/menu-icon.png")} />
+          <Text color="#15304B" margin={3}>
+            Meny
+          </Text>
+        </Flex>
+      )}
 
-      <Input
-        w={500}
-        placeholder="Sök efter drömbilen..."
-        bgColor={"#F3F4F6"}
-        color="#15304B"
-        _placeholder={{ color: "#15304B" }}
-        padding={7}
-        borderRadius={50}
-        paddingLeft={20}
-        cursor="pointer"
-      />
+      {!isMobile && (
+        <Input
+          w={500}
+          placeholder="Sök efter drömbilen..."
+          bgColor={"#F3F4F6"}
+          color="#15304B"
+          _placeholder={{ color: "#15304B" }}
+          padding={7}
+          borderRadius={50}
+          paddingLeft={20}
+          cursor="pointer"
+        />
+      )}
 
-      <Image
-        alt="app-logo"
-        src={require("../../assets/app-logo-blue.png")}
-        style={{ height: 31, width: 120 }}
-      />
+      {!isMobile && (
+        <Image
+          alt="app-logo"
+          src={require("../../assets/app-logo-blue.png")}
+          style={{ height: 31, width: 120 }}
+        />
+      )}
 
       <Flex
         flexDir="row"
-        w="35%"
+        w={isMobile ? "100%" : "35%"}
         alignItems="center"
-        justifyContent="space-between"
+        justifyContent="space-evenly"
       >
         {navItems.map((item, i) => (
           <Flex
-            flexDir="row"
+            flexDir={isMobile ? "column" : "row"}
             cursor="pointer"
             alignItems="center"
             onClick={() => {
@@ -73,10 +80,12 @@ export const Navbar = () => {
               src={require(`../../assets/nav-items/${item.icon}-${
                 selectedNavItem === item.name ? "active" : "inactive"
               }.png`)}
+              style={{ width: isMobile ? 32 : "", height: isMobile ? 32 : "" }}
             />
 
             <Text
-              margin={3}
+              margin={isMobile ? 1 : 3}
+              fontSize={isMobile ? "15px" : ""}
               color={selectedNavItem === item.name ? "#EF6D0A" : "#15304B"}
             >
               {item.name}

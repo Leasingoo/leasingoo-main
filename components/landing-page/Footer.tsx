@@ -38,21 +38,22 @@ export const Footer = ({ showSteps }: { showSteps?: boolean }) => {
       flexDir="column"
       width="100%"
       backgroundColor={COLORS.DARK_BLUE}
-      alignItems="center"
-      p={10}
+      p={isMobile ? 5 : 10}
     >
       <Flex
-        position="absolute"
+        position={isMobile ? "fixed" : "absolute"}
         bgColor="#EF6D0A"
-        bottom={5}
-        left={5}
-        w="60px"
-        h="60px"
+        bottom={isMobile ? "110px" : 5}
+        left={isMobile ? "" : 5}
+        right={isMobile ? 5 : ""}
+        w={isMobile ? "50px" : "60px"}
+        h={isMobile ? "50px" : "60px"}
         justifyContent="center"
         alignItems="center"
         borderRadius={50}
         cursor="pointer"
         onClick={scrollTop}
+        zIndex={20}
       >
         <Image
           alt={"arrow-top"}
@@ -63,20 +64,27 @@ export const Footer = ({ showSteps }: { showSteps?: boolean }) => {
       <Flex
         flexDir={isMobile ? "column" : "row"}
         width="60%"
-        justifyContent="space-around"
+        justifyContent={isMobile ? "" : "space-around"}
         mb={10}
       >
-        <Flex flexDir="column" alignItems="center" mb={isMobile ? 20 : 0}>
+        <Flex
+          flexDir="column"
+          alignItems={isMobile ? "flex-start" : "center"}
+          mb={isMobile ? 10 : 0}
+          ml={isMobile ? -5 : 0}
+        >
           <Image
             alt="app-logo"
             src={require("../../assets/app-logo.png")}
-            style={{ width: 200, height: 54, marginBottom: 50 }}
+            style={{ width: 200, height: 54, marginBottom: isMobile ? 0 : 50 }}
           />
-          <Flex flexDir="row" alignItems="center">
-            {footerSocialMedia.map((item, idx) => (
-              <SocialMediaButtonItem key={idx} item={item} />
-            ))}
-          </Flex>
+          {!isMobile && (
+            <Flex flexDir="row" alignItems="center">
+              {footerSocialMedia.map((item, idx) => (
+                <SocialMediaButtonItem key={idx} item={item} />
+              ))}
+            </Flex>
+          )}
         </Flex>
 
         <Flex flexDir={isMobile ? "column" : "row"}>
@@ -112,6 +120,14 @@ export const Footer = ({ showSteps }: { showSteps?: boolean }) => {
             ))}
           </Flex>
         </Flex>
+
+        {isMobile && (
+          <Flex flexDir="row" alignItems="center" mb={10}>
+            {footerSocialMedia.map((item, idx) => (
+              <SocialMediaButtonItem key={idx} item={item} />
+            ))}
+          </Flex>
+        )}
       </Flex>
     </Flex>
   );
