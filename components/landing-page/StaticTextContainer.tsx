@@ -23,10 +23,20 @@ export const StaticTextContainer = ({ item, i }: { item: any; i: number }) => {
         />
 
         <Flex flexDir="column" w={isMobile ? "100%" : "35%"}>
-          <Text color="#15304B" fontWeight="bold" fontSize={"40px"} mb={5}>
+          <Text
+            color="#15304B"
+            fontWeight="bold"
+            fontSize={isMobile ? "30px" : "40px"}
+            mb={5}
+          >
             {item.title}{" "}
           </Text>
-          <Text color="#15304B" fontWeight={400} fontSize={20} mb={10}>
+          <Text
+            color="#15304B"
+            fontWeight={400}
+            fontSize={isMobile ? 18 : 20}
+            mb={10}
+          >
             {item.text}
           </Text>
 

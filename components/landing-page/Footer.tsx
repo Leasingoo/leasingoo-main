@@ -37,6 +37,7 @@ export const Footer = ({ showSteps }: { showSteps?: boolean }) => {
     <Flex
       flexDir="column"
       width="100%"
+      alignItems={isMobile ? "flex-start" : "center"}
       backgroundColor={COLORS.DARK_BLUE}
       p={isMobile ? 5 : 10}
     >
