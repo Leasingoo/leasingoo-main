@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button, Flex, Text } from "@chakra-ui/react";
-import { Header } from "../components/landing-page/Header";
 import { CarsList } from "../components/landing-page/CarsList";
 import { Footer } from "../components/landing-page/Footer";
 import { Navbar } from "../components/landing-page/Navbar";
