@@ -3,10 +3,15 @@ import AddNewProductComponent from "../../../components/admin/AddNewProductCompo
 import { RequestsComponent } from "../../../components/admin/RequestsComponent";
 import { addNewCar } from "../../../helpers/admin/addNewCar";
 import { addNewRetailer } from "../../../helpers/admin/addNewRetailer";
-import { carFields, retailerFields } from "../../../helpers/admin/fieldsArrs";
+import {
+  carBrandFields,
+  carFields,
+  retailerFields,
+} from "../../../helpers/admin/fieldsArrs";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { addNewCarBrand } from "../../../helpers/admin/addNewCarBrand";
 
 const AddNew = () => {
   const router = useRouter();
@@ -18,7 +23,7 @@ const AddNew = () => {
       switch (product) {
         case "requests":
           return <RequestsComponent id={id as string} />;
-        case "car":
+        case "cars":
           return (
             <AddNewProductComponent
               dbRef="cars"
@@ -29,7 +34,18 @@ const AddNew = () => {
               router={router}
             />
           );
-        case "retailer":
+        case "carBrands":
+          return (
+            <AddNewProductComponent
+              dbRef="carBrands"
+              premadeFields={carBrandFields}
+              pageTitle="Add new car brand"
+              addNewProductFunc={addNewCarBrand}
+              id={id as string}
+              router={router}
+            />
+          );
+        case "retailers":
           return (
             <AddNewProductComponent
               dbRef="retailers"

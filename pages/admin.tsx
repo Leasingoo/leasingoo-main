@@ -42,35 +42,25 @@ const ProductListItem = ({
 const AdminPage = () => {
   const router = useRouter();
   const [adminStatus, setAdminStatus] = useState<any>(false);
-  const [cars, setCars] = useState<any>([]);
-  const [retailers, setRetailers] = useState<any>([]);
-  const [requests, setRequests] = useState<any[]>([]);
   const [pages, setPages] = useState<any[]>([
-    { name: "car", arr: cars },
-    { name: "retailer", arr: retailers },
-    { name: "requests", arr: requests },
+    { name: "carBrands", list: [] },
+    { name: "cars", list: [] },
+    { name: "retailers", list: [] },
+    { name: "requests", list: [] },
   ]);
 
   useEffect(() => {
-    getDocs(collection(db, "cars")).then((snapchot) => {
-      setCars([]);
-      snapchot.forEach((childSnapchot) => {
-        setCars((p: any) => [...p, childSnapchot.data()]);
-      });
-    });
+    pages.forEach(async (page, idx) => {
+      let pagesArr = [...pages];
 
-    getDocs(collection(db, "retailers")).then((snapchot) => {
-      setRetailers([]);
-      snapchot.forEach((childSnapchot) => {
-        setRetailers((p: any) => [...p, childSnapchot.data()]);
+      await getDocs(collection(db, page.name)).then((snapchot) => {
+        pagesArr[idx].list = [];
+        snapchot.forEach((childSnapchot) => {
+          pagesArr[idx].list = [...pagesArr[idx].list, childSnapchot.data()];
+        });
       });
-    });
 
-    getDocs(collection(db, "requests")).then((snapchot) => {
-      setRequests([]);
-      snapchot.forEach((childSnapchot) => {
-        setRequests((p: any) => [...p, childSnapchot.data()]);
-      });
+      setPages(pagesArr);
     });
   }, []);
 
@@ -79,43 +69,6 @@ const AdminPage = () => {
       window.localStorage.getItem("admin-status") as string | undefined
     );
   }, []);
-
-  const displayPages = (pageName: string, router: any) => {
-    switch (pageName) {
-      case "car":
-        return cars.map((arrChild: any, idx: number) => (
-          <ProductListItem
-            key={idx}
-            urlPageTitle={pageName}
-            productTitle={arrChild["Backend title"].value}
-            productID={arrChild.id.value}
-            router={router}
-          />
-        ));
-      case "retailer":
-        return retailers.map((arrChild: any, idx: number) => (
-          <ProductListItem
-            key={idx}
-            urlPageTitle={pageName}
-            productTitle={arrChild["Backend title"].value}
-            productID={arrChild.id.value}
-            router={router}
-          />
-        ));
-      case "requests":
-        return requests.map((request, idx) => (
-          <ProductListItem
-            key={idx}
-            productTitle={request["Namn"] as string}
-            urlPageTitle="requests"
-            productID={request["Namn"] as string}
-            router={router}
-          />
-        ));
-      default:
-        return <Text>List is empty...</Text>;
-    }
-  };
 
   return adminStatus === "logged-in" ? (
     <Flex
@@ -165,7 +118,22 @@ const AdminPage = () => {
               overflow="auto"
               padding={2}
             >
-              {displayPages(page.name, router)}
+              {page.list.length > 0 &&
+                page.list.map((item: any, idx: number) => (
+                  <ProductListItem
+                    key={idx}
+                    urlPageTitle={page.name}
+                    productTitle={
+                      page.name === "requests"
+                        ? item["Namn"]
+                        : item["Backend title"].value
+                    }
+                    productID={
+                      page.name === "requests" ? item["Namn"] : item.id.value
+                    }
+                    router={router}
+                  />
+                ))}
             </Flex>
           </Flex>
         ))}

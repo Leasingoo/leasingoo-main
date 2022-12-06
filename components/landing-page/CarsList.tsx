@@ -6,6 +6,7 @@ import {
   getDocs,
   limit,
   query,
+  where,
 } from "firebase/firestore";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { db } from "../../helpers/firebase/firebaseConfig";
@@ -13,7 +14,13 @@ import { CarsListItem } from "../items/CarsListItem";
 import { FilterModal, Filters } from "./FilterModal";
 import { useMediaQuery } from "@material-ui/core";
 
-export const CarsList = ({ searchInput }: { searchInput: string }) => {
+export const CarsList = ({
+  searchInput,
+  carBrand,
+}: {
+  searchInput: string;
+  carBrand?: string;
+}) => {
   const isMobile = useMediaQuery("(max-width:1400px)");
   const [cars, setCars] = useState<any[]>([]);
   const [filters, setFilters] = useState<Filters>({
@@ -34,7 +41,12 @@ export const CarsList = ({ searchInput }: { searchInput: string }) => {
   };
 
   useEffect(() => {
-    let carsQuery = query(collection(db, "cars"), limit(paginationLimit));
+    let carsQuery = query(
+      collection(db, "cars"),
+      carBrand
+        ? where("Bilmärke.value", "==", carBrand)
+        : limit(paginationLimit)
+    );
 
     getDocs(carsQuery).then((snapchot) => {
       setCars([]);
@@ -137,12 +149,17 @@ export const CarsList = ({ searchInput }: { searchInput: string }) => {
   return (
     <Flex
       flexDir="column"
-      mt={isMobile ? 5 : 20}
+      mt={isMobile ? 5 : carBrand ? 0 : 20}
       w="100%"
       alignItems="center"
       minHeight={800}
     >
-      <FilterModal filters={filters} setFilters={setFilters} cars={cars} />
+      <FilterModal
+        filters={filters}
+        setFilters={setFilters}
+        cars={cars}
+        isCarBrand={carBrand as string}
+      />
 
       <Flex
         pos="relative"
@@ -159,7 +176,7 @@ export const CarsList = ({ searchInput }: { searchInput: string }) => {
           ))}
       </Flex>
 
-      {carsTotalNumber && (
+      {carsTotalNumber && !carBrand && (
         <Flex
           w="100%"
           flexDir="column"

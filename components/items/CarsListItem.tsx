@@ -30,7 +30,7 @@ export const CarsListItem = ({ car }: { car: any }) => {
         cursor: "pointer",
       }}
       onClick={() => {
-        router.push(`/cars/${car["id"].value}`);
+        router.push(`/cars/${car["Namn"].value.replaceAll(" ", "_")}`);
       }}
       whileHover={{ scale: 1.05 }}
       onHoverStart={(e) => {

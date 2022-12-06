@@ -7,7 +7,6 @@ import Image from "next/image";
 import { StaticTextContainer } from "../components/landing-page/StaticTextContainer";
 import {
   landingContainersData,
-  landingFooterData,
   landingSteps,
 } from "../helpers/static-data/landingPageData";
 import { useMediaQuery } from "@material-ui/core";
@@ -147,57 +146,54 @@ const LandingPage = () => {
           <StaticTextContainer item={item} i={i} />
         ))}
 
-        {landingFooterData.map((item, i) => (
-          <Flex
-            key={i}
-            flexDir="column"
-            w="100%"
-            bgColor={item.bgColor}
-            justifyContent="center"
-            alignItems="center"
-            p={isMobile ? 10 : 150}
-          >
-            <Flex flexDir="column" w={isMobile ? "100%" : "50%"}>
-              <Text
-                color="#fff"
-                fontSize={isMobile ? "30px" : "40px"}
-                fontWeight="bold"
-                mb={isMobile ? 5 : 10}
-              >
-                {item.title}
-                {item.br && <br />}
-                <span style={{ color: item.buttonColor }}>
-                  {item.specialTitle}
-                </span>
-              </Text>
-              <Text
-                fontSize={isMobile ? 18 : 20}
-                color="#fff"
-                fontWeight={400}
-                textAlign="start"
-                mb={10}
-              >
-                {item.text}
-              </Text>
-              <Button
-                flexDir="row"
-                alignItems="center"
-                justifyContent="space-evenly"
-                w={isMobile ? "100%" : "40%"}
-                bgColor={item.buttonColor}
-                borderRadius={40}
-                p={7}
-                _hover={{ backgroundColor: "gray" }}
-              >
-                <Text color="#fff">{item.buttonText}</Text>
-                <Image
-                  src={require(`../assets/${item.buttonIcon}.png`)}
-                  alt={item.buttonIcon}
-                />
-              </Button>
-            </Flex>
+        <Flex
+          flexDir="column"
+          w="100%"
+          bgColor={"#15304B"}
+          justifyContent="center"
+          alignItems="center"
+          p={isMobile ? 10 : 150}
+        >
+          <Flex flexDir="column" w={isMobile ? "100%" : "50%"}>
+            <Text
+              color="#fff"
+              fontSize={isMobile ? "30px" : "40px"}
+              fontWeight="bold"
+              mb={isMobile ? 5 : 10}
+            >
+              Nyfiken bilhandlare?
+              <br />
+              <span style={{ color: "#EF6D0A" }}>Bli en samarbetspartner!</span>
+            </Text>
+            <Text
+              fontSize={isMobile ? 18 : 20}
+              color="#fff"
+              fontWeight={400}
+              textAlign="start"
+              mb={10}
+            >
+              Kunder vill hitta sin perfekta bil. Genom att samarbeta med oss så
+              ger vi kunden möjlighet att enkelt se över alla leasingbilar och
+              välja den som passar bäst.
+            </Text>
+            <Button
+              flexDir="row"
+              alignItems="center"
+              justifyContent="space-evenly"
+              w={isMobile ? "100%" : "40%"}
+              bgColor={"#EF6D0A"}
+              borderRadius={40}
+              p={7}
+              _hover={{ backgroundColor: "gray" }}
+            >
+              <Text color="#fff">Företagslösningar</Text>
+              <Image
+                src={require(`../assets/redirect-arrow.png`)}
+                alt={"redirect-arrow"}
+              />
+            </Button>
           </Flex>
-        ))}
+        </Flex>
       </Flex>
 
       <Footer />

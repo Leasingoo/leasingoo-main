@@ -30,6 +30,16 @@ export const carFields: additionalFieldsType[] = [
   { key: "Vinterdäck", value: "", order: 26, disabled: true },
 ];
 
+export const carBrandFields: additionalFieldsType[] = [
+  { key: "id", value: "", order: 0, disabled: true },
+  { key: "Name", value: "", order: 1, disabled: true },
+  { key: "Backend title", value: "", order: 2, disabled: true },
+  { key: "Description", value: "", order: 3, disabled: true },
+  { key: "Serviceavtal text", value: "", order: 4, disabled: true },
+  { key: "Betalskydd text", value: "", order: 6, disabled: true },
+  { key: "Försäkring text", value: "", order: 8, disabled: true },
+];
+
 export const retailerFields: additionalFieldsType[] = [
   { key: "id", value: "", order: 0, disabled: true },
   { key: "Backend title", value: "", order: 1, disabled: true },

@@ -55,29 +55,6 @@ export const landingContainersData = [
   },
 ];
 
-export const landingFooterData = [
-  {
-    bgColor: "#15304B",
-    title: "Nyfiken bilhandlare?",
-    specialTitle: "Bli en samarbetspartner!",
-    text: "Kunder vill hitta sin perfekta bil. Genom att samarbeta med oss så ger vi kunden möjlighet att enkelt se över alla leasingbilar och välja den som passar bäst. ",
-    buttonColor: "#EF6D0A",
-    buttonText: "Företagslösningar",
-    buttonIcon: "redirect-arrow",
-    br: true,
-  },
-  {
-    bgColor: "#EF6D0A",
-    title: "Vår support hjälper er ",
-    specialTitle: "hela vägen!",
-    text: "Vi svarar på era mail inom 12 timmar. Om ni önskar hjälp direkt så går det utmärkt att ringa supporten under våra öppettider! ",
-    buttonColor: "#15304B",
-    buttonText: "Kontakta oss",
-    buttonIcon: "contact-icon-white",
-    br: false,
-  },
-];
-
 export const footerSocialMedia = [
   {
     name: "linkedin",

@@ -252,6 +252,14 @@ const AddNewProductComponent = ({
             color="white"
             onClick={() => {
               switch (dbRef) {
+                case "carBrands":
+                  addNewProductFunc(
+                    additionalFields,
+                    id,
+                    setBeginProcess,
+                    router
+                  );
+                  break;
                 case "cars":
                   addNewProductFunc(
                     additionalFields,

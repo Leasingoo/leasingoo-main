@@ -1,5 +1,12 @@
 import { Flex, Image, Text, useColorModeValue } from "@chakra-ui/react";
-import { doc, getDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { RetailersListComponent } from "../../components/car-page/RetailersListComponent";
 import { CarInformationItem } from "../../components/items/CarInformationItem";
@@ -14,16 +21,25 @@ import { useMediaQuery } from "@material-ui/core";
 const CarPage = () => {
   const isMobile = useMediaQuery("(max-width:1400px)");
   const router = useRouter();
-  const { carID } = router.query;
+  const { carName } = router.query;
   const [car, setCar] = useState<any>();
   const [carInformationCards, setCarInformationCards] =
     useState(carInformationData);
 
   useEffect(() => {
-    getDoc(doc(db, `cars/${carID}`)).then((car) => {
-      setCar(car.data() as any);
-    });
-  }, [carID]);
+    if (carName) {
+      let carQuery = query(
+        collection(db, "cars"),
+        where("Namn.value", "==", carName?.toString().replaceAll("_", " "))
+      );
+
+      getDocs(carQuery).then((snapchot) => {
+        snapchot.forEach((childSnapchot) => {
+          setCar(childSnapchot.data());
+        });
+      });
+    }
+  }, [carName]);
   return (
     <Flex flexDir="column" alignItems="center">
       <Flex

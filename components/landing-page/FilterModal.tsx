@@ -27,10 +27,12 @@ export const FilterModal = ({
   filters,
   setFilters,
   cars,
+  isCarBrand,
 }: {
   filters: Filters;
   setFilters: Dispatch<SetStateAction<Filters>>;
   cars: any[];
+  isCarBrand: string;
 }) => {
   const isMobile = useMediaQuery("(max-width:1400px)");
   const gearBoxOptions = useMemo(() => ["Automat", "Manuell"], []);
@@ -38,12 +40,11 @@ export const FilterModal = ({
     () => ["Bensin", "Elbil", "Hybrid", "Plugin Hybrid"],
     []
   );
-  const [filterButtons, setFilterButtons] = useState([
-    "Drivmedel",
-    "Drivlåda",
-    "Bilmärken",
-    "Pris",
-  ]);
+  const [filterButtons, setFilterButtons] = useState(
+    isCarBrand
+      ? ["Drivmedel", "Drivlåda", "Pris"]
+      : ["Drivmedel", "Drivlåda", "Bilmärken", "Pris"]
+  );
   const [sortingOptions, setSortingOptions] = useState([
     "Mest relevanta",
     "Pris - Lågt till Högt",
@@ -83,8 +84,8 @@ export const FilterModal = ({
             borderTopWidth={2}
             borderTopColor="#F3F4F6"
             mt={"100px"}
-            left="50%"
-            transform={"translate(-50%, 0%)"}
+            left={isMobile ? "50%" : ""}
+            transform={isMobile ? "translate(-50%, 0%)" : ""}
           >
             {driveModelList.map((item, idx) => (
               <Flex
@@ -101,7 +102,9 @@ export const FilterModal = ({
                 _hover={{ bgColor: "#F3F4F6" }}
                 cursor="pointer"
               >
-                <Text color={COLORS.DARK_BLUE}>{item}</Text>
+                <Text color={COLORS.DARK_BLUE} fontWeight={600}>
+                  {item}
+                </Text>
 
                 <Flex
                   w="25px"
@@ -132,8 +135,8 @@ export const FilterModal = ({
             borderTopWidth={2}
             borderTopColor="#F3F4F6"
             mt={"100px"}
-            left="50%"
-            transform={"translate(-50%, 0%)"}
+            left={isMobile ? "50%" : ""}
+            transform={isMobile ? "translate(-50%, 0%)" : ""}
             p={5}
           >
             {gearBoxOptions.map((item, idx) => (
@@ -185,8 +188,8 @@ export const FilterModal = ({
             borderTopWidth={2}
             borderTopColor="#F3F4F6"
             mt={"100px"}
-            left="50%"
-            transform={"translate(-50%, 0%)"}
+            left={isMobile ? "50%" : ""}
+            transform={isMobile ? "translate(-50%, 0%)" : ""}
             p={5}
           >
             {cars.length > 0 &&
@@ -205,7 +208,9 @@ export const FilterModal = ({
                     cursor="pointer"
                     _hover={{ backgroundColor: "#F3F4F6" }}
                   >
-                    <Text color={COLORS.DARK_BLUE}>{item}</Text>
+                    <Text color={COLORS.DARK_BLUE} fontWeight={600}>
+                      {item}
+                    </Text>
 
                     <Flex
                       w="25px"
@@ -236,8 +241,8 @@ export const FilterModal = ({
             borderTopWidth={2}
             borderTopColor="#F3F4F6"
             mt={"100px"}
-            left="50%"
-            transform={"translate(-50%, 0%)"}
+            left={isMobile ? "50%" : ""}
+            transform={isMobile ? "translate(-50%, 0%)" : ""}
             pl={10}
             pr={10}
             pt={5}
@@ -250,10 +255,10 @@ export const FilterModal = ({
               alignItems="center"
               justifyContent="space-between"
             >
-              <Text color={COLORS.DARK_BLUE} fontWeight="500">
+              <Text color={COLORS.DARK_BLUE} fontWeight={600}>
                 {filters.minPrice} SEK
               </Text>
-              <Text color={COLORS.DARK_BLUE} fontWeight="500">
+              <Text color={COLORS.DARK_BLUE} fontWeight={600}>
                 {filters.maxPrice} SEK
               </Text>
             </Flex>
@@ -277,55 +282,56 @@ export const FilterModal = ({
           </Flex>
         );
       case "Sortera efter":
-    }
-
-    return (
-      <Flex
-        w={350}
-        pos="absolute"
-        flexDir="column"
-        justifyContent="center"
-        bgColor="#fff"
-        zIndex={8}
-        boxShadow={"lg"}
-        borderRadius={20}
-        borderTopWidth={2}
-        borderTopColor="#F3F4F6"
-        mt={"100px"}
-        left="50%"
-        transform={"translate(-50%, 0%)"}
-        p={5}
-      >
-        {sortingOptions.map((item, idx) => (
+        return (
           <Flex
-            key={idx}
-            flexDir="row"
-            alignItems="center"
-            justifyContent="space-between"
-            p={"15px"}
-            fontWeight={600}
-            borderRadius={10}
-            onClick={() => {
-              setSelectedFilterOption(idx);
-              onChangeFilter("sort", idx.toString());
-            }}
-            _hover={{ bgColor: "#F3F4F6" }}
-            cursor="pointer"
+            w={350}
+            pos="absolute"
+            flexDir="column"
+            justifyContent="center"
+            bgColor="#fff"
+            zIndex={8}
+            boxShadow={"lg"}
+            borderRadius={20}
+            borderTopWidth={2}
+            borderTopColor="#F3F4F6"
+            mt={"100px"}
+            left={isMobile ? "50%" : ""}
+            transform={isMobile ? "translate(-50%, 0%)" : ""}
+            p={5}
           >
-            <Text color={COLORS.DARK_BLUE}>{item}</Text>
+            {sortingOptions.map((item, idx) => (
+              <Flex
+                key={idx}
+                flexDir="row"
+                alignItems="center"
+                justifyContent="space-between"
+                p={"15px"}
+                fontWeight={600}
+                borderRadius={10}
+                onClick={() => {
+                  setSelectedFilterOption(idx);
+                  onChangeFilter("sort", idx.toString());
+                }}
+                _hover={{ bgColor: "#F3F4F6" }}
+                cursor="pointer"
+              >
+                <Text color={COLORS.DARK_BLUE} fontWeight={600}>
+                  {item}
+                </Text>
 
-            <Flex
-              w="25px"
-              h="25px"
-              borderRadius="100%"
-              borderWidth={2}
-              borderColor={COLORS.DARK_BLUE}
-              bgColor={selectedFilterOption === idx ? "#15304B" : "#fff"}
-            />
+                <Flex
+                  w="25px"
+                  h="25px"
+                  borderRadius="100%"
+                  borderWidth={2}
+                  borderColor={COLORS.DARK_BLUE}
+                  bgColor={selectedFilterOption === idx ? "#15304B" : "#fff"}
+                />
+              </Flex>
+            ))}
           </Flex>
-        ))}
-      </Flex>
-    );
+        );
+    }
   };
 
   return (
@@ -361,8 +367,8 @@ export const FilterModal = ({
                   />
                 )}
               </Button>
+              {selectedFilter === item && displayFilter(item)}
             </Flex>
-            {selectedFilter === item && displayFilter(item)}
           </>
         ))}
 
