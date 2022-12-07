@@ -77,6 +77,7 @@ const RetailersPage = () => {
             >
               {retailers.map((item: any, idx: number) => (
                 <Flex
+                  key={idx}
                   flexDir="row"
                   w={"100%"}
                   h={"55px"}

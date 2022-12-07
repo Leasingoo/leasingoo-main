@@ -6,7 +6,7 @@ import { SocialMediaButtonItem } from "../items/SocialMediaButtonItem";
 import { useMediaQuery } from "@material-ui/core";
 import { footerSocialMedia } from "../../helpers/static-data/landingPageData";
 
-export const Footer = ({ showSteps }: { showSteps?: boolean }) => {
+export const Footer = ({ contactPage }: { contactPage?: boolean }) => {
   const isMobile = useMediaQuery("(max-width:1400px)");
   const [privateLeasingLinks, setPrivateLeasingLinks] = useState([
     { name: "Jämför leasing", link: "" },
@@ -35,52 +35,54 @@ export const Footer = ({ showSteps }: { showSteps?: boolean }) => {
 
   return (
     <Flex flexDir="column" width="100%">
-      <Flex
-        flexDir="column"
-        w="100%"
-        bgColor={"#EF6D0A"}
-        justifyContent="center"
-        alignItems="center"
-        p={isMobile ? 10 : 150}
-      >
-        <Flex flexDir="column" w={isMobile ? "100%" : "50%"}>
-          <Text
-            color="#fff"
-            fontSize={isMobile ? "30px" : "40px"}
-            fontWeight="bold"
-            mb={isMobile ? 5 : 10}
-          >
-            Vår support hjälper er{" "}
-            <span style={{ color: "#15304B" }}>hela vägen!</span>
-          </Text>
-          <Text
-            fontSize={isMobile ? 18 : 20}
-            color="#fff"
-            fontWeight={400}
-            textAlign="start"
-            mb={10}
-          >
-            Vi svarar på era mail inom 12 timmar. Om ni önskar hjälp direkt så
-            går det utmärkt att ringa supporten under våra öppettider!
-          </Text>
-          <Button
-            flexDir="row"
-            alignItems="center"
-            justifyContent="space-evenly"
-            w={isMobile ? "100%" : "40%"}
-            bgColor={"#15304B"}
-            borderRadius={40}
-            p={7}
-            _hover={{ backgroundColor: "gray" }}
-          >
-            <Text color="#fff">Kontakta oss</Text>
-            <Image
-              src={require(`../../assets/contact-icon-white.png`)}
-              alt={"contact-icon-white"}
-            />
-          </Button>
+      {!contactPage && (
+        <Flex
+          flexDir="column"
+          w="100%"
+          bgColor={"#EF6D0A"}
+          justifyContent="center"
+          alignItems="center"
+          p={isMobile ? 10 : 150}
+        >
+          <Flex flexDir="column" w={isMobile ? "100%" : "50%"}>
+            <Text
+              color="#fff"
+              fontSize={isMobile ? "30px" : "40px"}
+              fontWeight="bold"
+              mb={isMobile ? 5 : 10}
+            >
+              Vår support hjälper er{" "}
+              <span style={{ color: "#15304B" }}>hela vägen!</span>
+            </Text>
+            <Text
+              fontSize={isMobile ? 18 : 20}
+              color="#fff"
+              fontWeight={400}
+              textAlign="start"
+              mb={10}
+            >
+              Vi svarar på era mail inom 12 timmar. Om ni önskar hjälp direkt så
+              går det utmärkt att ringa supporten under våra öppettider!
+            </Text>
+            <Button
+              flexDir="row"
+              alignItems="center"
+              justifyContent="space-evenly"
+              w={isMobile ? "100%" : "40%"}
+              bgColor={"#15304B"}
+              borderRadius={40}
+              p={7}
+              _hover={{ backgroundColor: "gray" }}
+            >
+              <Text color="#fff">Kontakta oss</Text>
+              <Image
+                src={require(`../../assets/contact-icon-white.png`)}
+                alt={"contact-icon-white"}
+              />
+            </Button>
+          </Flex>
         </Flex>
-      </Flex>
+      )}
 
       <Flex
         flexDir="column"
