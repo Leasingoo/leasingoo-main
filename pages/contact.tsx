@@ -1,6 +1,7 @@
 import { Button, Flex, Text } from "@chakra-ui/react";
 import { useMediaQuery } from "@material-ui/core";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { Footer } from "../components/landing-page/Footer";
 import { Navbar } from "../components/landing-page/Navbar";
@@ -10,6 +11,7 @@ import {
 } from "../helpers/static-data/contactPageData";
 
 const ContactPage = () => {
+  const router = useRouter();
   const isMobile = useMediaQuery("(max-width:1400px)");
   const [selectedQuestion, setSelectedQuestion] = useState<
     number | undefined
@@ -17,12 +19,12 @@ const ContactPage = () => {
 
   return (
     <Flex flexDir="column" scrollBehavior="smooth" alignItems="center">
-      <Navbar />
+      <Navbar currentRoute={router.pathname} />
       <Flex
         pos="relative"
         w="100%"
         flexDir="column"
-        mt={"90px"}
+        mt={isMobile ? "120px" : "90px"}
         mb={20}
         alignItems="center"
       >

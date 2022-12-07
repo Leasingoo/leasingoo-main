@@ -5,14 +5,21 @@ import { Navbar } from "../components/landing-page/Navbar";
 import { aboutusData } from "../helpers/static-data/aboutusPageData";
 import { StaticTextContainer } from "../components/landing-page/StaticTextContainer";
 import { useMediaQuery } from "@material-ui/core";
+import { useRouter } from "next/router";
 
 const AboutusPage = () => {
+  const router = useRouter();
   const isMobile = useMediaQuery("(max-width:1400px)");
 
   return (
     <Flex w="100%" flexDir="column">
-      <Navbar />
-      <Flex flexDir="column" w="100%" alignItems="center" mt={"120px"}>
+      <Navbar currentRoute={router.pathname} />
+      <Flex
+        flexDir="column"
+        w="100%"
+        alignItems="center"
+        mt={isMobile ? "120px" : "90px"}
+      >
         <Flex
           flexDir="row"
           w={isMobile ? "95%" : "60%"}

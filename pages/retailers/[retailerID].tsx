@@ -28,10 +28,10 @@ const RetailerSinglePage = () => {
 
   return (
     <Flex flexDir="column">
-      <Navbar />
+      <Navbar currentRoute={router.pathname} />
 
       <Flex
-        mt={40}
+        mt={isMobile ? "120px" : "90px"}
         w="100%"
         flexDir="column"
         alignItems={"center"}

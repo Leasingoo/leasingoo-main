@@ -17,6 +17,7 @@ import { db } from "../../helpers/firebase/firebaseConfig";
 import { COLORS } from "../../helpers/globalColors";
 import { useRouter } from "next/router";
 import { useMediaQuery } from "@material-ui/core";
+import { Navbar } from "../../components/landing-page/Navbar";
 
 const CarPage = () => {
   const isMobile = useMediaQuery("(max-width:1400px)");
@@ -42,15 +43,20 @@ const CarPage = () => {
   }, [carName]);
   return (
     <Flex flexDir="column" alignItems="center">
+      <Navbar currentRoute={router.pathname} />
       <Flex
         w={isMobile ? "100%" : "70%"}
         flexDir={isMobile ? "column" : "row"}
         alignItems="center"
         justifyContent="space-between"
         mb={20}
-        mt={isMobile ? 0 : 20}
+        mt={"150px"}
       >
-        <Image src={car && car["carImageLink"].value} w="650px" h="auto" />
+        <Image
+          src="https://firebasestorage.googleapis.com/v0/b/leasingoo.appspot.com/o/09cdc152%2FcarImage?alt=media&token=0f8492bc-863a-487f-829b-c411aa29760f"
+          w="650px"
+          h="auto"
+        />
 
         <MainCarInformationItem
           carInformation={[

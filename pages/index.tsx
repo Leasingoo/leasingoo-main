@@ -17,12 +17,12 @@ const LandingPage = () => {
 
   return (
     <Flex flexDir="column" scrollBehavior="smooth">
-      <Navbar />
+      <Navbar currentRoute="/" />
       <Flex
         pos="relative"
         w="100%"
         flexDir="column"
-        mt={"90px"}
+        mt={isMobile ? "120px" : "90px"}
         alignItems="center"
       >
         {!isMobile && (

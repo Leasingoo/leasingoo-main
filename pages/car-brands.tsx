@@ -1,6 +1,7 @@
 import { Flex, Text, Image } from "@chakra-ui/react";
 import { useMediaQuery } from "@material-ui/core";
 import { collection, getDocs } from "firebase/firestore";
+import { useRouter } from "next/router";
 // import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Footer } from "../components/landing-page/Footer";
@@ -8,6 +9,7 @@ import { Navbar } from "../components/landing-page/Navbar";
 import { db } from "../helpers/firebase/firebaseConfig";
 
 const CarBrandsPage = () => {
+  const router = useRouter();
   const [carBrands, setCarBrands] = useState<any>([]);
   const isMobile = useMediaQuery("(max-width:1400px)");
 
@@ -38,10 +40,10 @@ const CarBrandsPage = () => {
 
   return (
     <Flex flexDir="column">
-      <Navbar />
+      <Navbar currentRoute={router.pathname} />
 
       <Flex
-        mt={40}
+        mt={isMobile ? "120px" : "90px"}
         w="100%"
         flexDir="column"
         alignItems={"center"}
