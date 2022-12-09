@@ -3,6 +3,7 @@ import { useMediaQuery } from "@material-ui/core";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { BreadcrumbsComponent } from "../components/BreadcrumbsComponent";
 import { Footer } from "../components/landing-page/Footer";
 import { Navbar } from "../components/landing-page/Navbar";
 import {
@@ -20,12 +21,22 @@ const ContactPage = () => {
   return (
     <Flex flexDir="column" scrollBehavior="smooth" alignItems="center">
       <Navbar currentRoute={router.pathname} />
+
+      {isMobile && (
+        <BreadcrumbsComponent
+          additionalStyle={{
+            marginLeft: "5%",
+            marginTop: 120,
+          }}
+        />
+      )}
+
       <Flex
         pos="relative"
         w="100%"
         flexDir="column"
-        mt={isMobile ? "120px" : "90px"}
-        mb={20}
+        mt={isMobile ? "40px" : "90px"}
+        mb={isMobile ? 20 : 0}
         alignItems="center"
       >
         {!isMobile && (
@@ -62,6 +73,16 @@ const ContactPage = () => {
           </Text>
         )}
       </Flex>
+
+      {!isMobile && (
+        <BreadcrumbsComponent
+          additionalStyle={{
+            marginLeft: "20%",
+            marginBottom: 70,
+            marginTop: 50,
+          }}
+        />
+      )}
 
       <Flex
         flexDir="column"

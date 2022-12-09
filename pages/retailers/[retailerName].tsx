@@ -5,6 +5,7 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { BreadcrumbsComponent } from "../../components/BreadcrumbsComponent";
 import { Footer } from "../../components/landing-page/Footer";
 import { Navbar } from "../../components/landing-page/Navbar";
 import { db } from "../../helpers/firebase/firebaseConfig";
@@ -42,8 +43,10 @@ const RetailerSinglePage = () => {
     <Flex flexDir="column">
       <Navbar currentRoute={`/${router.pathname.split("/")[1]}`} />
 
+      <BreadcrumbsComponent />
+
       <Flex
-        mt={isMobile ? "120px" : "90px"}
+        mt={isMobile ? "20px" : 0}
         w="100%"
         flexDir="column"
         alignItems={"center"}

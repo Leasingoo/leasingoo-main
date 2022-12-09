@@ -2,12 +2,13 @@ import { Flex, Input, Text } from "@chakra-ui/react";
 import { useMediaQuery } from "@material-ui/core";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { navbarData } from "../../helpers/static-data/navbarData";
 
 export const Navbar = ({ currentRoute }: { currentRoute: string }) => {
   const [selectedNavItem, setSelectedNavItem] = useState(currentRoute);
   const isMobile = useMediaQuery("(max-width:1400px)");
+  // const [showBackButton, setShowBackButton] = useState(false);
   const router = useRouter();
 
   return (

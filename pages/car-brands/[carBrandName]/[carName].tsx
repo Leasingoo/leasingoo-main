@@ -1,4 +1,10 @@
-import { Flex, Image, Text, useColorModeValue } from "@chakra-ui/react";
+import {
+  Breadcrumb,
+  Flex,
+  Image,
+  Text,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import {
   collection,
   doc,
@@ -8,16 +14,17 @@ import {
   where,
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { RetailersListComponent } from "../../components/car-page/RetailersListComponent";
-import { CarInformationItem } from "../../components/items/CarInformationItem";
-import { MainCarInformationItem } from "../../components/items/MainCarInformationItem";
-import { Footer } from "../../components/landing-page/Footer";
-import { carInformationData } from "../../helpers/car-page/carInformationData";
-import { db } from "../../helpers/firebase/firebaseConfig";
-import { COLORS } from "../../helpers/globalColors";
+import { RetailersListComponent } from "../../../components/car-page/RetailersListComponent";
+import { CarInformationItem } from "../../../components/items/CarInformationItem";
+import { MainCarInformationItem } from "../../../components/items/MainCarInformationItem";
+import { Footer } from "../../../components/landing-page/Footer";
+import { carInformationData } from "../../../helpers/car-page/carInformationData";
+import { db } from "../../../helpers/firebase/firebaseConfig";
+import { COLORS } from "../../../helpers/globalColors";
 import { useRouter } from "next/router";
 import { useMediaQuery } from "@material-ui/core";
-import { Navbar } from "../../components/landing-page/Navbar";
+import { Navbar } from "../../../components/landing-page/Navbar";
+import { BreadcrumbsComponent } from "../../../components/BreadcrumbsComponent";
 
 const CarPage = () => {
   const isMobile = useMediaQuery("(max-width:1400px)");
@@ -44,6 +51,9 @@ const CarPage = () => {
   return (
     <Flex flexDir="column" alignItems="center">
       <Navbar currentRoute={`/`} />
+
+      {/* <BreadcrumbsComponent /> */}
+
       <Flex
         w={isMobile ? "100%" : "70%"}
         flexDir={isMobile ? "column" : "row"}

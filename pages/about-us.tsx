@@ -6,6 +6,7 @@ import { aboutusData } from "../helpers/static-data/aboutusPageData";
 import { StaticTextContainer } from "../components/landing-page/StaticTextContainer";
 import { useMediaQuery } from "@material-ui/core";
 import { useRouter } from "next/router";
+import { BreadcrumbsComponent } from "../components/BreadcrumbsComponent";
 
 const AboutusPage = () => {
   const router = useRouter();
@@ -14,11 +15,13 @@ const AboutusPage = () => {
   return (
     <Flex w="100%" flexDir="column">
       <Navbar currentRoute={router.pathname} />
+      <BreadcrumbsComponent />
+
       <Flex
         flexDir="column"
         w="100%"
         alignItems="center"
-        mt={isMobile ? "120px" : "90px"}
+        mt={isMobile ? "20px" : 0}
       >
         <Flex
           flexDir="row"
