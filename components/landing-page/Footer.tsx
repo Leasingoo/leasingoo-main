@@ -5,23 +5,15 @@ import { COLORS } from "../../helpers/globalColors";
 import { SocialMediaButtonItem } from "../items/SocialMediaButtonItem";
 import { useMediaQuery } from "@material-ui/core";
 import { footerSocialMedia } from "../../helpers/static-data/landingPageData";
+import { useRouter } from "next/router";
+import {
+  leasingooRoutes,
+  privateLeasingRoutes,
+} from "../../helpers/static-data/footerData";
 
 export const Footer = ({ contactPage }: { contactPage?: boolean }) => {
+  const router = useRouter();
   const isMobile = useMediaQuery("(max-width:1400px)");
-  const [privateLeasingLinks, setPrivateLeasingLinks] = useState([
-    { name: "Jämför leasing", link: "" },
-    { name: "Bilhandlare", link: "" },
-    { name: "Bilmärken", link: "" },
-    { name: "Om privatleasing", link: "" },
-    { name: "Försäkring", link: "" },
-    { name: "Garantier", link: "" },
-    { name: "Elbilar", link: "" },
-  ]);
-  const [leasingooLinks, setLeasingooLinks] = useState([
-    { name: "Företagslösningar", link: "" },
-    { name: "Om oss", link: "" },
-    { name: "Kontakta oss", link: "" },
-  ]);
 
   const scrollTop = () => {
     if (typeof window !== "undefined") {
@@ -73,6 +65,9 @@ export const Footer = ({ contactPage }: { contactPage?: boolean }) => {
               borderRadius={40}
               p={7}
               _hover={{ backgroundColor: "gray" }}
+              onClick={() => {
+                router.push("/contact");
+              }}
             >
               <Text color="#fff">Kontakta oss</Text>
               <Image
@@ -152,8 +147,17 @@ export const Footer = ({ contactPage }: { contactPage?: boolean }) => {
                 Privatleasing
               </Text>
 
-              {privateLeasingLinks.map((item, i) => (
-                <Text color="#fff" fontSize={16} mb={2} cursor="pointer">
+              {privateLeasingRoutes.map((item, i) => (
+                <Text
+                  color="#fff"
+                  fontSize={16}
+                  mb={2}
+                  cursor="pointer"
+                  _hover={{ textDecoration: "underline" }}
+                  onClick={() => {
+                    router.push(item.route);
+                  }}
+                >
                   {item.name}
                 </Text>
               ))}
@@ -167,8 +171,17 @@ export const Footer = ({ contactPage }: { contactPage?: boolean }) => {
               <Text color="#fff" fontWeight="bold" fontSize={25} mb={2}>
                 Leasingoo
               </Text>
-              {leasingooLinks.map((item, i) => (
-                <Text color="#fff" fontSize={16} mb={2} cursor="pointer">
+              {leasingooRoutes.map((item, i) => (
+                <Text
+                  _hover={{ textDecoration: "underline" }}
+                  color="#fff"
+                  fontSize={16}
+                  mb={2}
+                  cursor="pointer"
+                  onClick={() => {
+                    router.push(item.route);
+                  }}
+                >
                   {item.name}
                 </Text>
               ))}

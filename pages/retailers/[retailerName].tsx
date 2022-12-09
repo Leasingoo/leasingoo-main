@@ -1,6 +1,7 @@
 import { Button, Flex, Text } from "@chakra-ui/react";
 import { useMediaQuery } from "@material-ui/core";
-import { doc, getDoc } from "firebase/firestore";
+import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -11,24 +12,35 @@ import { COLORS } from "../../helpers/globalColors";
 
 const RetailerSinglePage = () => {
   const router = useRouter();
-  const { retailerID } = router.query;
+  const { retailerName } = router.query;
   const isMobile = useMediaQuery("(max-width:1400px)");
   const [retailerInfo, setRetailerInfo] = useState<any>();
-  const [location, setLocation] = useState({
-    address: "1600 Amphitheatre Parkway, Mountain View, california.",
-    lat: 37.42216,
-    lng: -122.08427,
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: process.env.NEXT_PUBLIC_MAPS_API_KEY as string,
   });
 
   useEffect(() => {
-    getDoc(doc(db, `/retailers/${retailerID}`)).then(async (snapchot) => {
-      setRetailerInfo(snapchot.data());
-    });
-  }, [retailerID]);
+    if (retailerName) {
+      let retailerQuery = query(
+        collection(db, "retailers"),
+        where(
+          "Företagsnamn.value",
+          "==",
+          retailerName?.toString().replaceAll("_", " ")
+        )
+      );
+
+      getDocs(retailerQuery).then(async (snapchot) => {
+        snapchot.forEach((childSnapchot) => {
+          setRetailerInfo(childSnapchot.data());
+        });
+      });
+    }
+  }, [retailerName]);
 
   return (
     <Flex flexDir="column">
-      <Navbar currentRoute={router.pathname} />
+      <Navbar currentRoute={`/${router.pathname.split("/")[1]}`} />
 
       <Flex
         mt={isMobile ? "120px" : "90px"}
@@ -89,6 +101,11 @@ const RetailerSinglePage = () => {
 
           {retailerInfo && (
             <Flex w="100%" flexDir="column" alignItems="center">
+              {isLoaded && (
+                <GoogleMap zoom={10} center={{ lat: 44, lng: -80 }}>
+                  <Marker position={{ lat: 44, lng: -80 }} />
+                </GoogleMap>
+              )}
               <Flex
                 w={isMobile ? "90%" : "100%"}
                 alignSelf="center"

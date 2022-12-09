@@ -2,7 +2,6 @@ import { Flex, Text, Image } from "@chakra-ui/react";
 import { useMediaQuery } from "@material-ui/core";
 import { collection, getDocs } from "firebase/firestore";
 import { useRouter } from "next/router";
-// import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Footer } from "../components/landing-page/Footer";
 import { Navbar } from "../components/landing-page/Navbar";
@@ -91,6 +90,9 @@ const CarBrandsPage = () => {
                   borderRadius={10}
                   cursor="pointer"
                   _hover={{ bgColor: "#cfd1d4" }}
+                  onClick={() => {
+                    router.push(`/car-brands/${item}`);
+                  }}
                 >
                   <Image
                     src="https://firebasestorage.googleapis.com/v0/b/leasingoo.appspot.com/o/09cdc152%2FcarBrandImage?alt=media&token=81c7fe54-1d16-4f7c-b303-f7da6ca9980c"

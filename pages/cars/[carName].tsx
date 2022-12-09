@@ -43,7 +43,7 @@ const CarPage = () => {
   }, [carName]);
   return (
     <Flex flexDir="column" alignItems="center">
-      <Navbar currentRoute={router.pathname} />
+      <Navbar currentRoute={`/`} />
       <Flex
         w={isMobile ? "100%" : "70%"}
         flexDir={isMobile ? "column" : "row"}

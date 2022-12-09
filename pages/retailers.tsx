@@ -91,6 +91,14 @@ const RetailersPage = () => {
                   borderRadius={50}
                   cursor="pointer"
                   _hover={{ bgColor: "#cfd1d4" }}
+                  onClick={() => {
+                    router.push(
+                      `/retailers/${item["Företagsnamn"].value.replaceAll(
+                        " ",
+                        "_"
+                      )}`
+                    );
+                  }}
                 >
                   <Text
                     fontSize={isMobile ? "16px" : "20px"}

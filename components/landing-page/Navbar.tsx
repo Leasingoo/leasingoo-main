@@ -1,12 +1,14 @@
 import { Flex, Input, Text } from "@chakra-ui/react";
 import { useMediaQuery } from "@material-ui/core";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { navbarData } from "../../helpers/static-data/navbarData";
 
 export const Navbar = ({ currentRoute }: { currentRoute: string }) => {
   const [selectedNavItem, setSelectedNavItem] = useState(currentRoute);
   const isMobile = useMediaQuery("(max-width:1400px)");
+  const router = useRouter();
 
   return (
     <>
@@ -55,7 +57,10 @@ export const Navbar = ({ currentRoute }: { currentRoute: string }) => {
           <Image
             alt="app-logo"
             src={require("../../assets/app-logo-blue.png")}
-            style={{ height: 31, width: 120 }}
+            style={{ cursor: "pointer", height: 31, width: 120 }}
+            onClick={() => {
+              router.push("/");
+            }}
           />
         )}
 
@@ -71,6 +76,7 @@ export const Navbar = ({ currentRoute }: { currentRoute: string }) => {
               cursor="pointer"
               alignItems="center"
               onClick={() => {
+                router.push(item.route);
                 setSelectedNavItem(item.route);
               }}
             >

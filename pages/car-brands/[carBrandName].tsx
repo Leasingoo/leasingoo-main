@@ -38,7 +38,7 @@ const CarBrandSinglePage = () => {
 
   return (
     <Flex flexDir="column">
-      <Navbar currentRoute={router.pathname} />
+      <Navbar currentRoute={`/${router.pathname.split("/")[1]}`} />
 
       <Flex
         mt={isMobile ? "120px" : "90px"}

@@ -10,8 +10,10 @@ import {
   landingSteps,
 } from "../helpers/static-data/landingPageData";
 import { useMediaQuery } from "@material-ui/core";
+import { useRouter } from "next/router";
 
 const LandingPage = () => {
+  const router = useRouter();
   const [searchInput, setSearchInput] = useState("");
   const isMobile = useMediaQuery("(max-width:1400px)");
 
