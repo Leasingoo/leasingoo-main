@@ -1,18 +1,5 @@
-import {
-  Breadcrumb,
-  Flex,
-  Image,
-  Text,
-  useColorModeValue,
-} from "@chakra-ui/react";
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  where,
-} from "firebase/firestore";
+import { Button, Flex, Image, Text } from "@chakra-ui/react";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { RetailersListComponent } from "../../../components/car-page/RetailersListComponent";
 import { CarInformationItem } from "../../../components/items/CarInformationItem";
@@ -24,6 +11,7 @@ import { COLORS } from "../../../helpers/globalColors";
 import { useRouter } from "next/router";
 import { useMediaQuery } from "@material-ui/core";
 import { Navbar } from "../../../components/landing-page/Navbar";
+import NextImage from "next/image";
 import { BreadcrumbsComponent } from "../../../components/BreadcrumbsComponent";
 
 const CarPage = () => {
@@ -85,7 +73,7 @@ const CarPage = () => {
       <Flex
         flexDir="column"
         w="100%"
-        backgroundColor={COLORS.DARK_BLUE}
+        backgroundColor={"#F3F4F6"}
         pt={isMobile ? "50px" : "70px"}
         pb={isMobile ? "50px" : "70px"}
         mb={20}
@@ -94,16 +82,35 @@ const CarPage = () => {
         <Text
           fontSize={isMobile ? 20 : 27}
           fontWeight={600}
-          color="#fff"
-          mb={3}
+          color="#15304B"
+          mb={5}
         >
-          {car && car["Bilmärke"].value} privat
-          <span style={{ color: COLORS.ORANGE }}>leasing</span>
+          {car && car["Bilmärke"].value} privatleasing
         </Text>
 
-        <Text color="#fff" fontWeight={200} fontSize={18} w="60%">
+        <Text color="#15304B" fontSize={18} w="60%" mb={10}>
           {car && car["Beskrivning"].value}
         </Text>
+
+        <Button
+          flexDir="row"
+          alignItems="center"
+          justifyContent="space-evenly"
+          w={isMobile ? "90%" : "270px"}
+          bgColor={"#15304B"}
+          borderRadius={40}
+          p={7}
+          _hover={{ backgroundColor: "gray" }}
+          onClick={() => {
+            router.push(`/car-brands/${car["Bilmärke"].value}`);
+          }}
+        >
+          {car && <Text color="#fff">Mer om {car["Bilmärke"].value}</Text>}
+          <NextImage
+            src={require(`../../../assets/redirect-arrow.png`)}
+            alt={"redirect-arrow"}
+          />
+        </Button>
       </Flex>
 
       <Flex
@@ -125,37 +132,6 @@ const CarPage = () => {
       </Flex>
 
       <RetailersListComponent car={car} />
-
-      <Flex
-        flexDir="column"
-        bgColor={COLORS.ORANGE}
-        w="100%"
-        padding={isMobile ? 10 : 20}
-        alignItems="center"
-      >
-        <Text
-          fontSize={30}
-          fontWeight={600}
-          color="#fff"
-          mb={5}
-          textAlign="center"
-        >
-          Smidig kontakt med{" "}
-          <span style={{ color: COLORS.DARK_BLUE }}>bilhandlare</span>
-        </Text>
-
-        <Text
-          color="#fff"
-          w={isMobile ? "100%" : "60%"}
-          fontSize={20}
-          textAlign="center"
-          fontWeight={200}
-        >
-          Vi på Leasingoo har gjort det enkelt att komma i kontakt med rätt
-          bilhandlare. När ni hittat den bil som passar är det bara att skicka
-          en intresseanmälan så kontaktar bilhandlaren er snarast.
-        </Text>
-      </Flex>
 
       <Footer />
     </Flex>
