@@ -85,7 +85,7 @@ export const CarsListItem = ({ car }: { car: any }) => {
 
       <Text
         color={COLORS.DARK_BLUE}
-        fontWeight={400}
+        fontWeight={500}
         fontSize={isMobile ? 15 : 17}
         mb={"70px"}
         pl={isMobile ? 0 : 5}

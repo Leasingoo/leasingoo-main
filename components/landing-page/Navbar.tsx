@@ -4,11 +4,12 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { navbarData } from "../../helpers/static-data/navbarData";
+import { MenuComponent } from "./MenuComponent";
 
 export const Navbar = ({ currentRoute }: { currentRoute: string }) => {
   const [selectedNavItem, setSelectedNavItem] = useState(currentRoute);
   const isMobile = useMediaQuery("(max-width:1400px)");
-  // const [showBackButton, setShowBackButton] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
   const router = useRouter();
 
   return (
@@ -28,8 +29,29 @@ export const Navbar = ({ currentRoute }: { currentRoute: string }) => {
         paddingLeft={isMobile ? 0 : 10}
         zIndex={10}
       >
+        {showMenu && (
+          <MenuComponent
+            router={router}
+            showMenu={showMenu}
+            closeMenu={() => {
+              setShowMenu(false);
+            }}
+          />
+        )}
+
         {!isMobile && (
-          <Flex flexDir="row" cursor="pointer" alignItems="center">
+          <Flex
+            flexDir="row"
+            cursor="pointer"
+            alignItems="center"
+            _hover={{ backgroundColor: "#dedede" }}
+            borderRadius={isMobile ? "" : 50}
+            pr={isMobile ? 0 : 3}
+            pl={isMobile ? 0 : 3}
+            onClick={() => {
+              setShowMenu(true);
+            }}
+          >
             <Image
               alt="menu-icon"
               src={require("../../assets/menu-icon.png")}
@@ -80,6 +102,10 @@ export const Navbar = ({ currentRoute }: { currentRoute: string }) => {
                 router.push(item.route);
                 setSelectedNavItem(item.route);
               }}
+              _hover={{ backgroundColor: "#dedede" }}
+              borderRadius={isMobile ? "" : 50}
+              pr={isMobile ? 0 : 3}
+              pl={isMobile ? 0 : 3}
             >
               <Image
                 alt={item.icon}
@@ -119,6 +145,7 @@ export const Navbar = ({ currentRoute }: { currentRoute: string }) => {
               alt="back-icon"
               src={require("../../assets/back-icon.png")}
               style={{ width: 45, height: 45, margin: 5, cursor: "pointer" }}
+              onClick={router.back}
             />
           )}
           <Input
@@ -136,6 +163,9 @@ export const Navbar = ({ currentRoute }: { currentRoute: string }) => {
             alt="menu-icon"
             src={require("../../assets/menu-icon.png")}
             style={{ width: 35, height: 25, margin: 10, cursor: "pointer" }}
+            onClick={() => {
+              setShowMenu(true);
+            }}
           />
         </Flex>
       )}
