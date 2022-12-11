@@ -38,7 +38,7 @@ const CarPage = () => {
   }, [carName]);
   return (
     <Flex flexDir="column" alignItems="center">
-      <Navbar currentRoute={`/`} />
+      <Navbar currentRoute={router.pathname} />
 
       {/* <BreadcrumbsComponent /> */}
 

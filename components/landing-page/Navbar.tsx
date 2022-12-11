@@ -38,53 +38,71 @@ export const Navbar = ({ currentRoute }: { currentRoute: string }) => {
             }}
           />
         )}
-
         {!isMobile && (
-          <Flex
-            flexDir="row"
-            cursor="pointer"
-            alignItems="center"
-            _hover={{ backgroundColor: "#dedede" }}
-            borderRadius={isMobile ? "" : 50}
-            pr={isMobile ? 0 : 3}
-            pl={isMobile ? 0 : 3}
-            onClick={() => {
-              setShowMenu(true);
-            }}
-          >
-            <Image
-              alt="menu-icon"
-              src={require("../../assets/menu-icon.png")}
+          <>
+            <Flex
+              flexDir="row"
+              cursor="pointer"
+              alignItems="center"
+              _hover={{ backgroundColor: "#dedede" }}
+              borderRadius={isMobile ? "" : 50}
+              pr={isMobile ? 0 : 3}
+              pl={isMobile ? 0 : 3}
+              onClick={() => {
+                setShowMenu(true);
+              }}
+            >
+              <Image
+                alt="menu-icon"
+                src={require("../../assets/menu-icon.png")}
+              />
+              <Text color="#15304B" margin={3} fontWeight={500}>
+                Meny
+              </Text>
+            </Flex>
+
+            {currentRoute !== "/" && (
+              <Flex
+                flexDir="row"
+                cursor="pointer"
+                alignItems="center"
+                _hover={{ backgroundColor: "#dedede" }}
+                borderRadius={isMobile ? "" : 50}
+                pr={isMobile ? 0 : 3}
+                pl={isMobile ? 0 : 3}
+                onClick={router.back}
+              >
+                <Image
+                  alt="back-icon"
+                  src={require("../../assets/back-icon.png")}
+                />
+                <Text color="#15304B" margin={3} fontWeight={500}>
+                  Tillbaka
+                </Text>
+              </Flex>
+            )}
+
+            <Input
+              w={500}
+              placeholder="Sök efter drömbilen..."
+              bgColor={"#F3F4F6"}
+              color="#15304B"
+              _placeholder={{ color: "#15304B", fontWeight: 500 }}
+              padding={7}
+              borderRadius={50}
+              paddingLeft={20}
+              cursor="pointer"
             />
-            <Text color="#15304B" margin={3} fontWeight={500}>
-              Meny
-            </Text>
-          </Flex>
-        )}
 
-        {!isMobile && (
-          <Input
-            w={500}
-            placeholder="Sök efter drömbilen..."
-            bgColor={"#F3F4F6"}
-            color="#15304B"
-            _placeholder={{ color: "#15304B", fontWeight: 500 }}
-            padding={7}
-            borderRadius={50}
-            paddingLeft={20}
-            cursor="pointer"
-          />
-        )}
-
-        {!isMobile && (
-          <Image
-            alt="app-logo"
-            src={require("../../assets/app-logo-blue.png")}
-            style={{ cursor: "pointer", height: 31, width: 120 }}
-            onClick={() => {
-              router.push("/");
-            }}
-          />
+            <Image
+              alt="app-logo"
+              src={require("../../assets/app-logo-blue.png")}
+              style={{ cursor: "pointer", height: 31, width: 120 }}
+              onClick={() => {
+                router.push("/");
+              }}
+            />
+          </>
         )}
 
         <Flex
