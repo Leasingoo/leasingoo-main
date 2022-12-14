@@ -221,7 +221,10 @@ const UpcomingPage = () => {
         )}
       </Flex>
 
-      <Image alt="mobile-image" src={require("../assets/mobile-image.png")} />
+      <Image
+        alt="mobile-image"
+        src={require("../assets/mobile-image-new.png")}
+      />
     </Flex>
   );
 };
