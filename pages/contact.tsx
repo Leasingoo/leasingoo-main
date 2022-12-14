@@ -97,48 +97,64 @@ const ContactPage = () => {
         </Text>
 
         {questionsAnswers.map((item, i) => (
-          <Flex
-            key={i}
-            flexDir="row"
-            w={"100%"}
-            h={isMobile ? "65px" : "55px"}
-            bgColor={
-              selectedQuestion === i ? "#15304B" : isMobile ? "#fff" : "#F3F4F6"
-            }
-            alignItems="center"
-            justifyContent="space-between"
-            mb={5}
-            pl={isMobile ? 5 : 20}
-            borderRadius={50}
-            cursor="pointer"
-            _hover={{ bgColor: selectedQuestion !== i && "#cfd1d4" }}
-            onClick={() => {
-              setSelectedQuestion((p) => (p === i ? undefined : i));
-            }}
-          >
-            <Text
-              fontSize={isMobile ? "16px" : "20px"}
-              fontWeight={600}
-              color={selectedQuestion === i ? "#fff" : "#15304B"}
-            >
-              {item.question}
-            </Text>
-
-            <Image
-              alt="arrow-icon"
-              src={require(`../assets/${
-                selectedQuestion === i ? "arrow-icon-white" : "arrow-icon"
-              }.png`)}
-              style={{
-                width: 25,
-                height: 25,
-                objectFit: "cover",
-                transform:
-                  selectedQuestion === i ? "rotate(0deg)" : "rotate(180deg)",
-                marginRight: 20,
-                marginLeft: 10,
+          <Flex key={i} flexDir="column" mb={5}>
+            <Flex
+              flexDir="row"
+              w={"100%"}
+              h={isMobile ? "65px" : "55px"}
+              bgColor={
+                selectedQuestion === i
+                  ? "#15304B"
+                  : isMobile
+                  ? "#fff"
+                  : "#F3F4F6"
+              }
+              alignItems="center"
+              justifyContent="space-between"
+              pl={isMobile ? 5 : 20}
+              borderRadius={50}
+              cursor="pointer"
+              _hover={{ bgColor: selectedQuestion !== i && "#cfd1d4" }}
+              onClick={() => {
+                setSelectedQuestion((p) => (p === i ? undefined : i));
               }}
-            />
+            >
+              <Text
+                fontSize={isMobile ? "16px" : "20px"}
+                fontWeight={600}
+                color={selectedQuestion === i ? "#fff" : "#15304B"}
+              >
+                {item.question}
+              </Text>
+
+              <Image
+                alt="arrow-icon"
+                src={require(`../assets/${
+                  selectedQuestion === i ? "arrow-icon-white" : "arrow-icon"
+                }.png`)}
+                style={{
+                  width: 25,
+                  height: 25,
+                  objectFit: "cover",
+                  transform:
+                    selectedQuestion === i ? "rotate(0deg)" : "rotate(180deg)",
+                  marginRight: 20,
+                  marginLeft: 10,
+                }}
+              />
+            </Flex>
+
+            {selectedQuestion === i && (
+              <Flex pl={10} mt={3}>
+                <Text
+                  fontSize={"18"}
+                  color="#15304B"
+                  w={isMobile ? "95%" : "80%"}
+                >
+                  {item.answer}
+                </Text>
+              </Flex>
+            )}
           </Flex>
         ))}
       </Flex>
