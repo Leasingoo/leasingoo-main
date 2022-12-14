@@ -57,19 +57,21 @@ export const BreadcrumbsComponent = ({
                 }
               }}
             >
-              {breadcrumbsRoutes[item] ??
-                item
-                  .replaceAll("_", " ")
-                  .replaceAll("%C3%AB", "ë")
-                  .replaceAll("%C3%B6", "ö")
-                  .substring(0, 10) +
-                  (item
+              {isMobile
+                ? breadcrumbsRoutes[item] ??
+                  item
                     .replaceAll("_", " ")
                     .replaceAll("%C3%AB", "ë")
                     .replaceAll("%C3%B6", "ö")
-                    .split("").length > 10
-                    ? "..."
-                    : "")}
+                    .substring(0, 15) +
+                    (item
+                      .replaceAll("_", " ")
+                      .replaceAll("%C3%AB", "ë")
+                      .replaceAll("%C3%B6", "ö")
+                      .split("").length > 15
+                      ? "..."
+                      : "")
+                : breadcrumbsRoutes[item] ?? item}
             </Button>
           </BreadcrumbItem>
         ))}

@@ -7,14 +7,23 @@ export const StaticTextContainer = ({
   i,
   noButtons,
 }: {
-  item: any;
-  i: number;
+  item: {
+    bgColor: string;
+    direction: any;
+    image: string;
+    mobileImage: string;
+    mobileImageDir: string;
+    title: string;
+    text: string;
+    buttonText?: string;
+  };
+  i?: number;
   noButtons?: boolean;
 }) => {
   const isMobile = useMediaQuery("(max-width:1400px)");
 
   return (
-    <Flex key={i} w="100%" bgColor={item.bgColor} justifyContent="center">
+    <Flex key={i ?? 0} w="100%" bgColor={item.bgColor} justifyContent="center">
       <Flex
         w={isMobile ? "100%" : "80%"}
         flexDir={isMobile ? "column" : item.direction}
