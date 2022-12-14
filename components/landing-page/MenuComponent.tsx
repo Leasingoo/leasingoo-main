@@ -20,10 +20,10 @@ export const MenuComponent = ({
 }) => {
   const isMobile = useMediaQuery("(max-width:1400px)");
   const [extraLinks, setExtraLinks] = useState<any[]>([
-    { name: "Försäkring", route: "/" },
-    { name: "Garantier", route: "/" },
-    { name: "Elbilar", route: "/" },
-    { name: "Företagslösningar", route: "/" },
+    { name: "Försäkring", route: "/insurance" },
+    { name: "Garantier", route: "/guarantee" },
+    { name: "Elbilar", route: "/electric-cars" },
+    { name: "Företagslösningar", route: "/business-solutions" },
   ]);
   const [menuLinks, setMenuLinks] = useState<any>([
     {

@@ -28,8 +28,8 @@ export const footerData = [
     title: "Allt som behövs är samlat åt er",
     text: `Kunden har redan jämfört och bestämt sig för en specifik bil. Vid intresseanmälningar så sammanställer vi kundernas uppgifter samt vilka bilar de är intresserade av i ett dokument. Denna skickas till er för att ni ska få en enkel överblick över intresserade kunder och därefter göra affär.`,
     direction: "row",
-    image: "about-privatleasing-image3",
-    mobileImage: "about-privatleasing-image3",
+    image: "business-solutions3-image",
+    mobileImage: "business-solutions3-image",
     imageDirection: "center",
   },
   {
@@ -37,8 +37,8 @@ export const footerData = [
     title: "Användarvänligt",
     text: `Vi har skapat en lättnavigerad produktjämförelse där vår tjänst är anpassad efter att göra kundernas upplevelse så enkel som möjligt. Kunderna kan enkelt jämföra, filtrera och skicka intresseanmälningar med några enkla knapptryck. `,
     direction: "row-reverse",
-    image: "about-privatleasing-image4",
-    mobileImage: "about-privatleasing-image4",
+    image: "business-solutions4-image",
+    mobileImage: "business-solutions4-image",
     mobileImageDir: "center",
   },
 ];
