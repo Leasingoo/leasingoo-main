@@ -25,17 +25,20 @@ export const privatleasingFooterData = [
     title: "Leasa en elbil, bäst för miljön!",
     text: "Att köra bil på el är det bästa alternativet mot ett fossilfritt samhälle. Det man ska tänka på är att välja en el-leverantör som levererar el från förnybara energikällor så som solkraft, vindkraft och vattenkraft.",
     buttonText: "Mer om Elbilar",
+    route: "/about-privatleasing/electric-cars",
   },
   {
     bgColor: "#F3F4F6",
     title: "Det ska kännas tryggt att leasa en ny bil!",
     text: "En ny bil ska fungera som tänkt och framför allt ska det finnas hjälp att få om något inte gör det. Vi har samlat information om försäkringar och vad ni ska tänka på. Hör med er bilhandlare om vad som gäller för just din bil. ",
     buttonText: "Mer om Försäkringar",
+    route: "/about-privatleasing/insurance",
   },
   {
     bgColor: "#fff",
     title: "Ingår det några garantier?",
     text: "En fabriksny bil brukar ha en treårig vagnskadegaranti från tillverkaren. Vid leveransen av er bil följer det med ett vagnskadegarantibevis, där startdatum för vagnskadegarantin står. Läs mer om information kring garantier och vad som är viktigt att tänka på nedan.",
     buttonText: "Mer om Garantier",
+    route: "/about-privatleasing/guarantees",
   },
 ];

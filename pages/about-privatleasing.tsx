@@ -88,6 +88,9 @@ const aboutPrivatleasingPage = () => {
             borderRadius={40}
             p={7}
             _hover={{ backgroundColor: "gray" }}
+            onClick={() => {
+              router.push("/");
+            }}
           >
             <Text color="#fff">Jämför privatleasing</Text>
             <Image
@@ -251,6 +254,9 @@ const aboutPrivatleasingPage = () => {
               borderRadius={40}
               p={7}
               _hover={{ backgroundColor: "gray" }}
+              onClick={() => {
+                router.push(item.route);
+              }}
             >
               <Text color="#fff">{item.buttonText}</Text>
               <Image

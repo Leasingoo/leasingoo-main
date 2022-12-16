@@ -45,24 +45,6 @@ export const CarsListItem = ({ car }: { car: any }) => {
         setDisplayWings(false);
       }}
     >
-      {(isMobile ? true : displayWings) && (
-        <NextImage
-          alt="car-wings-icon"
-          style={{
-            position: "absolute",
-            bottom: 0,
-            width: "100%",
-            height: "100%",
-            zIndex: -1,
-            backgroundColor: "#fff",
-            borderRadius: 15,
-          }}
-          src={require(`../../assets/${
-            isMobile ? "card-wing" : "card-wing-one"
-          }.png`)}
-        />
-      )}
-
       <Image
         pos="absolute"
         top={3}

@@ -4,13 +4,19 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { navbarData } from "../../helpers/static-data/navbarData";
+import { SearchModalComponent } from "../SearchModalComponent";
 import { MenuComponent } from "./MenuComponent";
 
 export const Navbar = ({ currentRoute }: { currentRoute: string }) => {
   const [selectedNavItem, setSelectedNavItem] = useState(currentRoute);
   const isMobile = useMediaQuery("(max-width:1400px)");
   const [showMenu, setShowMenu] = useState(false);
+  const [searchModalVisible, setSearchModalVisible] = useState(false);
   const router = useRouter();
+
+  const closeSearchModal = () => {
+    setSearchModalVisible(false);
+  };
 
   return (
     <>
@@ -92,6 +98,13 @@ export const Navbar = ({ currentRoute }: { currentRoute: string }) => {
               borderRadius={50}
               paddingLeft={20}
               cursor="pointer"
+              onClick={() => {
+                setSearchModalVisible(true);
+              }}
+            />
+            <SearchModalComponent
+              closeSearchModal={closeSearchModal}
+              searchModalVisible={searchModalVisible}
             />
 
             <Image
@@ -176,7 +189,15 @@ export const Navbar = ({ currentRoute }: { currentRoute: string }) => {
             borderRadius={50}
             paddingLeft={10}
             cursor="pointer"
+            onClick={() => {
+              setSearchModalVisible(true);
+            }}
           />
+          <SearchModalComponent
+            closeSearchModal={closeSearchModal}
+            searchModalVisible={searchModalVisible}
+          />
+
           <Image
             alt="menu-icon"
             src={require("../../assets/menu-icon.png")}

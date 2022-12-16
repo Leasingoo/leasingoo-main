@@ -40,7 +40,7 @@ const CarPage = () => {
     <Flex flexDir="column" alignItems="center">
       <Navbar currentRoute={router.pathname} />
 
-      {/* <BreadcrumbsComponent /> */}
+      {!isMobile && <BreadcrumbsComponent />}
 
       <Flex
         w={isMobile ? "100%" : "70%"}

@@ -71,7 +71,11 @@ export const BreadcrumbsComponent = ({
                       .split("").length > 15
                       ? "..."
                       : "")
-                : breadcrumbsRoutes[item] ?? item}
+                : breadcrumbsRoutes[item] ??
+                  item
+                    .replaceAll("_", " ")
+                    .replaceAll("%C3%AB", "ë")
+                    .replaceAll("%C3%B6", "ö")}
             </Button>
           </BreadcrumbItem>
         ))}
