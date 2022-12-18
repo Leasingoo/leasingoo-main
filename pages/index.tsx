@@ -11,6 +11,7 @@ import {
 } from "../helpers/static-data/landingPageData";
 import { useMediaQuery } from "@material-ui/core";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 const LandingPage = () => {
   const router = useRouter();
@@ -19,6 +20,10 @@ const LandingPage = () => {
 
   return (
     <Flex flexDir="column" scrollBehavior="smooth">
+      <Head>
+        <title>Privatleasing - Leasingoo</title>
+        <meta name="description" content="Leasingoo landing page" />
+      </Head>
       <Navbar currentRoute="/" />
       <Flex
         pos="relative"

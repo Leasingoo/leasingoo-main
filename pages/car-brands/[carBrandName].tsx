@@ -10,6 +10,7 @@ import { Footer } from "../../components/landing-page/Footer";
 import { Navbar } from "../../components/landing-page/Navbar";
 import { db } from "../../helpers/firebase/firebaseConfig";
 import { COLORS } from "../../helpers/globalColors";
+import Head from "next/head";
 
 const CarBrandSinglePage = () => {
   const router = useRouter();
@@ -39,6 +40,19 @@ const CarBrandSinglePage = () => {
 
   return (
     <Flex flexDir="column">
+      <Head>
+        <title>
+          {carBrandName?.toString().replaceAll("_", " ") + " - Leasingoo"}
+        </title>
+        <meta
+          name="description"
+          content={
+            carBrandInfo && carBrandInfo["Description"]
+              ? carBrandInfo["Description"].value
+              : carBrandName?.toString().replaceAll("_", " ") + " - Leasingoo"
+          }
+        />
+      </Head>
       <Navbar currentRoute={`/${router.pathname.split("/")[1]}`} />
 
       <BreadcrumbsComponent />

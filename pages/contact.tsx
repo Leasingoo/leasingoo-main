@@ -10,6 +10,7 @@ import {
   openingTimes,
   questionsAnswers,
 } from "../helpers/static-data/contactPageData";
+import Head from "next/head";
 
 const ContactPage = () => {
   const router = useRouter();
@@ -20,6 +21,10 @@ const ContactPage = () => {
 
   return (
     <Flex flexDir="column" scrollBehavior="smooth" alignItems="center">
+      <Head>
+        <title>Kontakt - Leasingoo</title>
+        <meta name="description" content="Kontakt" />
+      </Head>
       <Navbar currentRoute={router.pathname} />
 
       {isMobile && (

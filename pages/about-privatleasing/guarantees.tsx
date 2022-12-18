@@ -7,6 +7,7 @@ import { Footer } from "../../components/landing-page/Footer";
 import { Navbar } from "../../components/landing-page/Navbar";
 import { StaticTextContainer } from "../../components/landing-page/StaticTextContainer";
 import { guaranteesPageData } from "../../helpers/static-data/guaranteesPageData";
+import Head from "next/head";
 
 export const GuanranteesPage = () => {
   const router = useRouter();
@@ -14,6 +15,10 @@ export const GuanranteesPage = () => {
 
   return (
     <Flex w="100%" flexDir="column" alignItems="center">
+      <Head>
+        <title>Garantier - Leasingoo</title>
+        <meta name="description" content="Garantier" />
+      </Head>
       <Navbar currentRoute={router.pathname} />
       <BreadcrumbsComponent additionalStyle={{ marginBottom: "50px" }} />
 

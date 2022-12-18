@@ -10,6 +10,7 @@ import {
   electricCarsSteps,
   electricCarsStaticContainerData,
 } from "../../helpers/static-data/electricCarsPageData";
+import Head from "next/head";
 
 const ElectricCarsPage = () => {
   const router = useRouter();
@@ -17,6 +18,10 @@ const ElectricCarsPage = () => {
 
   return (
     <Flex w="100%" flexDir="column" alignItems="center">
+      <Head>
+        <title>Elbilar - Leasingoo</title>
+        <meta name="description" content="Elbilar" />
+      </Head>
       <Navbar currentRoute={router.pathname} />
       <BreadcrumbsComponent additionalStyle={{ marginBottom: "50px" }} />
 

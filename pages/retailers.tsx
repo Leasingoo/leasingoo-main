@@ -8,6 +8,7 @@ import { BreadcrumbsComponent } from "../components/BreadcrumbsComponent";
 import { Footer } from "../components/landing-page/Footer";
 import { Navbar } from "../components/landing-page/Navbar";
 import { db } from "../helpers/firebase/firebaseConfig";
+import Head from "next/head";
 
 const RetailersPage = () => {
   const [retailers, setRetailers] = useState<any>([]);
@@ -32,6 +33,10 @@ const RetailersPage = () => {
 
   return (
     <Flex flexDir="column">
+      <Head>
+        <title>Bilhandlare - Leasingoo</title>
+        <meta name="description" content="Bilhandlare" />
+      </Head>
       <Navbar currentRoute={router.pathname} />
 
       <BreadcrumbsComponent

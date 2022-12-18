@@ -7,6 +7,7 @@ import { BreadcrumbsComponent } from "../components/BreadcrumbsComponent";
 import { Footer } from "../components/landing-page/Footer";
 import { Navbar } from "../components/landing-page/Navbar";
 import { db } from "../helpers/firebase/firebaseConfig";
+import Head from "next/head";
 
 const CarBrandsPage = () => {
   const router = useRouter();
@@ -40,6 +41,10 @@ const CarBrandsPage = () => {
 
   return (
     <Flex flexDir="column">
+      <Head>
+        <title>Bilmärken - Leasingoo</title>
+        <meta name="description" content="Bilmärken" />
+      </Head>
       <Navbar currentRoute={router.pathname} />
 
       <BreadcrumbsComponent

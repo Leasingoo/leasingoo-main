@@ -7,6 +7,7 @@ import { Footer } from "../../components/landing-page/Footer";
 import { Navbar } from "../../components/landing-page/Navbar";
 import { StaticTextContainer } from "../../components/landing-page/StaticTextContainer";
 import { insurancePageData } from "../../helpers/static-data/insurancePage";
+import Head from "next/head";
 
 const InsurancePage = () => {
   const router = useRouter();
@@ -14,6 +15,10 @@ const InsurancePage = () => {
 
   return (
     <Flex w="100%" flexDir="column" alignItems="center">
+      <Head>
+        <title>Försäkring - Leasingoo</title>
+        <meta name="description" content="Försäkring" />
+      </Head>
       <Navbar currentRoute={router.pathname} />
       <BreadcrumbsComponent additionalStyle={{ marginBottom: "50px" }} />
 

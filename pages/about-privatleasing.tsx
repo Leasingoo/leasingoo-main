@@ -9,6 +9,7 @@ import {
   privatleasingFooterData,
   privatleasingTopData,
 } from "../helpers/static-data/privatleasingPageData";
+import Head from "next/head";
 
 const aboutPrivatleasingPage = () => {
   const router = useRouter();
@@ -16,6 +17,10 @@ const aboutPrivatleasingPage = () => {
 
   return (
     <Flex w="100%" flexDir="column" alignItems="center">
+      <Head>
+        <title>Om Privatleasing - Leasingoo</title>
+        <meta name="description" content="Om Privatleasing" />
+      </Head>
       <Navbar currentRoute={router.pathname} />
       <BreadcrumbsComponent additionalStyle={{ marginBottom: "50px" }} />
 

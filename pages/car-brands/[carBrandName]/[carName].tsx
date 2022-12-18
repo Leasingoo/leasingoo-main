@@ -13,6 +13,7 @@ import { useMediaQuery } from "@material-ui/core";
 import { Navbar } from "../../../components/landing-page/Navbar";
 import NextImage from "next/image";
 import { BreadcrumbsComponent } from "../../../components/BreadcrumbsComponent";
+import Head from "next/head";
 
 const CarPage = () => {
   const isMobile = useMediaQuery("(max-width:1400px)");
@@ -38,6 +39,19 @@ const CarPage = () => {
   }, [carName]);
   return (
     <Flex flexDir="column" alignItems="center">
+      <Head>
+        <title>
+          {carName?.toString().replaceAll("_", " ") + " - Leasingoo"}
+        </title>
+        <meta
+          name="description"
+          content={
+            car && car["Beskrivning"]
+              ? car["Beskrivning"].value
+              : carName?.toString().replaceAll("_", " ") + " - Leasingoo"
+          }
+        />
+      </Head>
       <Navbar currentRoute={router.pathname} />
 
       {!isMobile && <BreadcrumbsComponent />}

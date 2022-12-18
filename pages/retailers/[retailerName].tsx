@@ -10,6 +10,7 @@ import { Footer } from "../../components/landing-page/Footer";
 import { Navbar } from "../../components/landing-page/Navbar";
 import { db } from "../../helpers/firebase/firebaseConfig";
 import { COLORS } from "../../helpers/globalColors";
+import Head from "next/head";
 
 const RetailerSinglePage = () => {
   const router = useRouter();
@@ -41,6 +42,19 @@ const RetailerSinglePage = () => {
 
   return (
     <Flex flexDir="column">
+      <Head>
+        <title>
+          {retailerName?.toString().replaceAll("_", " ") + " - Leasingoo"}
+        </title>
+        <meta
+          name="description"
+          content={
+            retailerInfo && retailerInfo["Beskrivning"]
+              ? retailerInfo["Beskrivning"].value
+              : retailerName?.toString().replaceAll("_", " ") + " - Leasingoo"
+          }
+        />
+      </Head>
       <Navbar currentRoute={`/${router.pathname.split("/")[1]}`} />
 
       <BreadcrumbsComponent />

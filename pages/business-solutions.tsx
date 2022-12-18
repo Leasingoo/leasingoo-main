@@ -11,6 +11,7 @@ import {
   aboutPageSteps,
   footerData,
 } from "../helpers/static-data/businessSolutionsPageData";
+import Head from "next/head";
 
 const BusinessSolutionsPage = () => {
   const router = useRouter();
@@ -27,6 +28,10 @@ const BusinessSolutionsPage = () => {
 
   return (
     <Flex w="100%" flexDir="column" alignItems="center">
+      <Head>
+        <title>Företagslösnitngar - Leasingoo</title>
+        <meta name="description" content="Företagslösnitngar" />
+      </Head>
       <Navbar currentRoute={router.pathname} />
       <BreadcrumbsComponent additionalStyle={{ marginBottom: "50px" }} />
 

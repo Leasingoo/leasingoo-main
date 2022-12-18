@@ -7,6 +7,7 @@ import { StaticTextContainer } from "../components/landing-page/StaticTextContai
 import { useMediaQuery } from "@material-ui/core";
 import { useRouter } from "next/router";
 import { BreadcrumbsComponent } from "../components/BreadcrumbsComponent";
+import Head from "next/head";
 
 const AboutusPage = () => {
   const router = useRouter();
@@ -14,6 +15,10 @@ const AboutusPage = () => {
 
   return (
     <Flex w="100%" flexDir="column">
+      <Head>
+        <title>Om oss - Leasingoo</title>
+        <meta name="description" content="Om oss" />
+      </Head>
       <Navbar currentRoute={router.pathname} />
       <BreadcrumbsComponent />
 
