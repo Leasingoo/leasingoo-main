@@ -187,7 +187,13 @@ export const CarsList = ({
           borderBottomColor="#F3F4F6"
         >
           <Text color="#15304B" mb={3} fontSize={18}>
-            {`Visar ${paginationLimit - 1} av ${carsTotalNumber}`}
+            {`Visar ${
+              paginationLimit <= carsTotalNumber
+                ? filteredCars.length < paginationLimit
+                  ? filteredCars.length
+                  : paginationLimit - 1
+                : carsTotalNumber
+            } av ${carsTotalNumber}`}
           </Text>
 
           <Flex w={350} bgColor="#F3F4F6" h={1} borderRadius={50} mb={7}>
@@ -205,12 +211,14 @@ export const CarsList = ({
             borderColor="#000000"
             p={"25px"}
             onClick={() => {
-              if (paginationLimit !== carsTotalNumber) {
-                setPaginationLimit(carsTotalNumber + 1);
+              if (paginationLimit <= carsTotalNumber) {
+                setPaginationLimit((p) => p + 10);
               }
             }}
           >
-            Visa fler leasingbilar
+            {paginationLimit <= carsTotalNumber
+              ? "Visa fler leasingbilar"
+              : "Inga fler leasingbilar"}
           </Button>
         </Flex>
       )}
