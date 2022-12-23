@@ -22,6 +22,7 @@ export const CarsList = ({
   carBrand?: string;
 }) => {
   const isMobile = useMediaQuery("(max-width:1400px)");
+
   const [cars, setCars] = useState<any[]>([]);
   const [filters, setFilters] = useState<Filters>({
     sort: "0",
@@ -31,22 +32,12 @@ export const CarsList = ({
     brand: [],
     driveModel: [],
   });
-  const [carsTotalNumber, setCarsTotalNumber] = useState<number | null>(null);
-  const [paginationLimit, setPaginationLimit] = useState(13);
-
-  const getTotalCars = async () => {
-    const snapshot = await getCountFromServer(collection(db, "cars"));
-
-    setCarsTotalNumber(snapshot.data().count);
-  };
+  const [paginationLimit, setPaginationLimit] = useState(12);
 
   useEffect(() => {
-    let carsQuery = query(
-      collection(db, "cars"),
-      carBrand
-        ? where("Bilmärke.value", "==", carBrand)
-        : limit(paginationLimit)
-    );
+    let carsQuery = carBrand
+      ? query(collection(db, "cars"), where("Bilmärke.value", "==", carBrand))
+      : query(collection(db, "cars"));
 
     getDocs(carsQuery).then((snapchot) => {
       setCars([]);
@@ -55,10 +46,6 @@ export const CarsList = ({
         setCars((p: any) => [...p, childSnapchot.data()]);
       });
     });
-  }, [paginationLimit]);
-
-  useEffect(() => {
-    getTotalCars();
   }, []);
 
   const filterSearch = useCallback(
@@ -170,13 +157,14 @@ export const CarsList = ({
         mb={10}
         zIndex={2}
       >
-        {cars.length > 0 &&
-          filteredCars.map((item, idx) => (
-            <CarsListItem key={idx} car={item} />
-          ))}
+        {cars &&
+          cars.length > 0 &&
+          filteredCars
+            .filter((item, i) => i < paginationLimit)
+            .map((item, idx) => <CarsListItem key={idx} car={item} />)}
       </Flex>
 
-      {carsTotalNumber && !carBrand && (
+      {!carBrand && (
         <Flex
           w="100%"
           flexDir="column"
@@ -188,17 +176,13 @@ export const CarsList = ({
         >
           <Text color="#15304B" mb={3} fontSize={18}>
             {`Visar ${
-              paginationLimit <= carsTotalNumber
-                ? filteredCars.length < paginationLimit
-                  ? filteredCars.length
-                  : paginationLimit - 1
-                : carsTotalNumber
-            } av ${carsTotalNumber}`}
+              filteredCars.filter((item, i) => i < paginationLimit).length
+            } av ${filteredCars.length}`}
           </Text>
 
           <Flex w={350} bgColor="#F3F4F6" h={1} borderRadius={50} mb={7}>
             <Flex
-              w={`${Math.round(paginationLimit * 100) / carsTotalNumber}%`}
+              w={`${Math.round(paginationLimit * 100) / filteredCars.length}%`}
               bgColor="#15304B"
               h={1}
               borderRadius={50}
@@ -211,12 +195,12 @@ export const CarsList = ({
             borderColor="#000000"
             p={"25px"}
             onClick={() => {
-              if (paginationLimit <= carsTotalNumber) {
+              if (paginationLimit <= filteredCars.length) {
                 setPaginationLimit((p) => p + 10);
               }
             }}
           >
-            {paginationLimit <= carsTotalNumber
+            {paginationLimit <= filteredCars.length
               ? "Visa fler leasingbilar"
               : "Inga fler leasingbilar"}
           </Button>
