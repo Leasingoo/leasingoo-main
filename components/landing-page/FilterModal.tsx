@@ -13,6 +13,7 @@ import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
 import { COLORS } from "../../helpers/globalColors";
 import { useMediaQuery } from "@material-ui/core";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 export type Filters = {
   sort?: string;
@@ -34,6 +35,7 @@ export const FilterModal = ({
   cars: any[];
   isCarBrand: string;
 }) => {
+  const router = useRouter();
   const isMobile = useMediaQuery("(max-width:1400px)");
   const gearBoxOptions = useMemo(() => ["Automat", "Manuell"], []);
   const driveModelList = useMemo(
@@ -52,13 +54,15 @@ export const FilterModal = ({
     "Namn - A till Ö",
     "Namn - Ö till A",
   ]);
-  const [selectedFilterOption, setSelectedFilterOption] = useState(0);
   const [selectedFilter, setSelectedFilter] = useState("");
 
   const onChangeFilter = (type: string, value: string | number) => {
     setFilters((prevState) => ({ ...prevState, [type]: value }));
+
+    router.query[type] = value.toString();
+    router.push(router, undefined, { scroll: false });
   };
-  const onChangeFilterArray = (type: string, value: string | number) => {
+  const onChangeFilterArray = async (type: string, value: string | number) => {
     setFilters((prevState: any) => ({
       ...prevState,
       [type]: prevState[type]
@@ -67,6 +71,20 @@ export const FilterModal = ({
           : [...prevState[type], value]
         : undefined,
     }));
+
+    let previousRouteArr: string[] | undefined = router.query[type]
+      ?.toString()
+      .split("-");
+
+    (router.query[type] = previousRouteArr
+      ? previousRouteArr?.includes(value.toString())
+        ? previousRouteArr
+            ?.filter((item: string) => item !== value.toString())
+            .toString()
+            .replaceAll(",", "-")
+        : `${router.query[type]}-${value.toString()}`
+      : value.toString()),
+      router.push(router, undefined, { scroll: false });
   };
 
   const displayFilter = (item: string) => {
@@ -309,7 +327,6 @@ export const FilterModal = ({
                 fontWeight={600}
                 borderRadius={10}
                 onClick={() => {
-                  setSelectedFilterOption(idx);
                   onChangeFilter("sort", idx.toString());
                 }}
                 _hover={{ bgColor: "#F3F4F6" }}
@@ -325,7 +342,7 @@ export const FilterModal = ({
                   borderRadius="100%"
                   borderWidth={2}
                   borderColor={COLORS.DARK_BLUE}
-                  bgColor={selectedFilterOption === idx ? "#15304B" : "#fff"}
+                  bgColor={Number(filters.sort) === idx ? "#15304B" : "#fff"}
                 />
               </Flex>
             ))}

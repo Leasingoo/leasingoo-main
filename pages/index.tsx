@@ -14,7 +14,6 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 
 const LandingPage = () => {
-  const router = useRouter();
   const [searchInput, setSearchInput] = useState("");
   const isMobile = useMediaQuery("(max-width:1400px)");
 

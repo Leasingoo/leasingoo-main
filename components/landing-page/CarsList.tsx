@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Button, Flex, Text } from "@chakra-ui/react";
+import { Button, Flex, Text, filter } from "@chakra-ui/react";
 import {
   collection,
   getCountFromServer,
@@ -13,6 +13,7 @@ import { db } from "../../helpers/firebase/firebaseConfig";
 import { CarsListItem } from "../items/CarsListItem";
 import { FilterModal, Filters } from "./FilterModal";
 import { useMediaQuery } from "@material-ui/core";
+import { Router, useRouter } from "next/router";
 
 export const CarsList = ({
   searchInput,
@@ -22,6 +23,8 @@ export const CarsList = ({
   carBrand?: string;
 }) => {
   const isMobile = useMediaQuery("(max-width:1400px)");
+  const router = useRouter();
+  const { sort, minPrice, maxPrice, gearBox, brand, driveModel } = router.query;
 
   const [cars, setCars] = useState<any[]>([]);
   const [filters, setFilters] = useState<Filters>({
@@ -47,6 +50,19 @@ export const CarsList = ({
       });
     });
   }, []);
+
+  useEffect(() => {
+    setFilters({
+      sort: sort?.toString() ?? "0",
+      minPrice: Number(minPrice ?? 0),
+      maxPrice: Number(maxPrice ?? 7500),
+      gearBox: gearBox?.toString() ?? "",
+      brand: brand ? (brand?.toString().split("-") as string[]) : [],
+      driveModel: driveModel
+        ? (driveModel?.toString().split("-") as string[])
+        : [],
+    });
+  }, [router.query]);
 
   const filterSearch = useCallback(
     (item: any) =>
