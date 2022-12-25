@@ -16,6 +16,7 @@ import Head from "next/head";
 const LandingPage = () => {
   const [searchInput, setSearchInput] = useState("");
   const isMobile = useMediaQuery("(max-width:1400px)");
+  const router = useRouter();
 
   return (
     <Flex flexDir="column" scrollBehavior="smooth">
@@ -149,7 +150,13 @@ const LandingPage = () => {
 
       <Flex flexDir="column" w="100%">
         {landingContainersData.map((item, i) => (
-          <StaticTextContainer item={item} i={i} />
+          <StaticTextContainer
+            item={item}
+            i={i}
+            buttonFunc={() => {
+              router.push(item.route);
+            }}
+          />
         ))}
 
         <Flex

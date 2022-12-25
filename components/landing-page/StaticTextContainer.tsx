@@ -6,6 +6,7 @@ export const StaticTextContainer = ({
   item,
   i,
   noButtons,
+  buttonFunc,
 }: {
   item: {
     bgColor: string;
@@ -18,6 +19,7 @@ export const StaticTextContainer = ({
     buttonText?: string;
   };
   i?: number;
+  buttonFunc?: () => void;
   noButtons?: boolean;
 }) => {
   const isMobile = useMediaQuery("(max-width:1400px)");
@@ -69,6 +71,7 @@ export const StaticTextContainer = ({
               p={7}
               alignSelf={isMobile ? "center" : ""}
               _hover={{ backgroundColor: "gray" }}
+              onClick={buttonFunc}
             >
               <Text color="#fff">{item.buttonText}</Text>
               <Image
