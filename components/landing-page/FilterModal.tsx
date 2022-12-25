@@ -38,6 +38,7 @@ export const FilterModal = ({
   const router = useRouter();
   const isMobile = useMediaQuery("(max-width:1400px)");
   const [selectedFilter, setSelectedFilter] = useState("");
+  const [showRemoveAllButton, setShowRemoveAllButton] = useState(false);
   const [filterButtons, setFilterButtons] = useState(
     isCarBrand
       ? ["Drivmedel", "Drivlåda", "Pris"]
@@ -224,7 +225,11 @@ export const FilterModal = ({
             (isArray(filters[key])
               ? filters[key].length > 0
               : filters[key] !== defaultFilters[key]) && (
-              <Flex>
+              <Flex
+                onLoad={() => {
+                  setShowRemoveAllButton(true);
+                }}
+              >
                 <Button
                   borderRadius={50}
                   bgColor="#F3F4F6"
@@ -246,6 +251,29 @@ export const FilterModal = ({
                 </Button>
               </Flex>
             )
+        )}
+
+        {showRemoveAllButton && (
+          <Button
+            borderRadius={50}
+            bgColor="#fff"
+            p={25}
+            m={5}
+            borderWidth={2}
+            borderColor={"#15304B"}
+            onClick={() => {
+              setFilters(defaultFilters);
+              router.push("", undefined, { scroll: false });
+              setShowRemoveAllButton(false);
+            }}
+          >
+            <Image
+              style={{ margin: 3, width: 25 }}
+              alt="close-icon"
+              src={require("../../assets/close-icon.png")}
+            />
+            Rensa alla
+          </Button>
         )}
       </Flex>
     </Flex>
