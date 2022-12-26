@@ -18,6 +18,7 @@ const DisplayFilter = ({
   filters,
   onChangeFilter,
   cars,
+  onChangeFilterArray,
 }: {
   item: string;
   setSelectedFilter: any;
@@ -26,6 +27,7 @@ const DisplayFilter = ({
   filters: any;
   onChangeFilter: any;
   cars: any;
+  onChangeFilterArray: any;
 }) => {
   const gearBoxOptions = useMemo(() => ["Automat", "Manuell"], []);
   const driveModelList = useMemo(
@@ -40,30 +42,6 @@ const DisplayFilter = ({
     "Namn - Ö till A",
   ]);
   const isMobile = useMediaQuery("(max-width:1400px)");
-
-  const onChangeFilterArray = async (type: string, value: string | number) => {
-    setFilters((prevState: any) => ({
-      ...prevState,
-      [type]: prevState[type]
-        ? prevState[type]?.includes(value)
-          ? prevState[type]?.filter((item: string) => item !== value)
-          : [...prevState[type], value]
-        : undefined,
-    }));
-
-    let previousRouteArr: string[] = router.query[type]?.toString().split("-");
-
-    (router.query[type] =
-      router.query[type] && previousRouteArr?.length > 0
-        ? previousRouteArr?.includes(value.toString())
-          ? previousRouteArr
-              ?.filter((item: string) => item !== value.toString())
-              .toString()
-              .replaceAll(",", "-")
-          : `${router.query[type]}-${value.toString()}`
-        : value.toString()),
-      router.push(router, undefined, { scroll: false });
-  };
 
   switch (item) {
     case "Drivmedel":

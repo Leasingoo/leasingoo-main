@@ -67,6 +67,29 @@ export const FilterModal = ({
     router.push(router, undefined, { scroll: false });
   };
 
+  const onChangeFilterArray = async (type: string, value: string | number) => {
+    setFilters((prevState: any) => ({
+      ...prevState,
+      [type]: prevState[type]
+        ? prevState[type]?.includes(value)
+          ? prevState[type]?.filter((item: string) => item !== value)
+          : [...prevState[type], value]
+        : undefined,
+    }));
+    let previousRouteArr: any = router.query[type]?.toString().split("-");
+
+    (router.query[type] =
+      router.query[type] && previousRouteArr?.length > 0
+        ? previousRouteArr?.includes(value.toString())
+          ? previousRouteArr
+              ?.filter((item: string) => item !== value.toString())
+              .toString()
+              .replaceAll(",", "-")
+          : `${router.query[type]}-${value.toString()}`
+        : value.toString()),
+      router.push(router, undefined, { scroll: false });
+  };
+
   const displayAppliedFilters = (key: string) => {
     switch (key) {
       case "sort":
@@ -74,15 +97,82 @@ export const FilterModal = ({
       case "gearBox":
         return <Text>{filters[key]}</Text>;
       case "driveModel":
-        return <Text>{filters[key].toString().replaceAll(",", " - ")}</Text>;
+        return (
+          <>
+            {filters[key].map((item: string, idx: number) => (
+              <Button
+                key={idx}
+                borderRadius={50}
+                bgColor="#F3F4F6"
+                p={25}
+                m={5}
+                borderWidth={2}
+                borderColor={"#15304B"}
+                onClick={() => {
+                  onChangeFilterArray(key, item);
+                }}
+              >
+                <Text>{item}</Text>
+                <Image
+                  style={{ margin: 3, width: 25 }}
+                  alt="close-icon"
+                  src={require("../../assets/close-icon.png")}
+                />
+              </Button>
+            ))}
+          </>
+        );
       case "brand":
-        return <Text>{filters[key].toString().replaceAll(",", " - ")}</Text>;
+        return (
+          <>
+            {filters[key].map((item: string, idx: number) => (
+              <Button
+                key={idx}
+                borderRadius={50}
+                bgColor="#F3F4F6"
+                p={25}
+                m={5}
+                borderWidth={2}
+                borderColor={"#15304B"}
+                onClick={() => {
+                  onChangeFilterArray(key, item);
+                }}
+              >
+                <Text>{item}</Text>
+                <Image
+                  style={{ margin: 3, width: 25 }}
+                  alt="close-icon"
+                  src={require("../../assets/close-icon.png")}
+                />
+              </Button>
+            ))}
+          </>
+        );
       case "minPrice":
         return <Text>{"Lägsta pris: " + filters[key]}</Text>;
       case "maxPrice":
         return <Text>{"Högsta pris: " + filters[key]}</Text>;
     }
   };
+
+  useEffect(() => {
+    let equalValues: any[] = [];
+    Object.keys(filters).forEach((item) => {
+      if (item === "brand" || item === "driveModel") {
+        if (filters[item].length === defaultFilters[item].length) {
+          equalValues = [...equalValues, item];
+        }
+      } else {
+        if (filters[item] === defaultFilters[item]) {
+          equalValues = [...equalValues, item];
+        }
+      }
+    });
+
+    if (Object.keys(filters).length === equalValues.length) {
+      setShowRemoveAllButton(false);
+    }
+  }, [filters]);
 
   return (
     <Flex
@@ -132,6 +222,7 @@ export const FilterModal = ({
                     filters={filters}
                     onChangeFilter={onChangeFilter}
                     cars={cars}
+                    onChangeFilterArray={onChangeFilterArray}
                   />
                 )}
               </Flex>
@@ -168,6 +259,7 @@ export const FilterModal = ({
                   filters={filters}
                   onChangeFilter={onChangeFilter}
                   cars={cars}
+                  onChangeFilterArray={onChangeFilterArray}
                 />
               )}
             </>
@@ -206,6 +298,7 @@ export const FilterModal = ({
                 filters={filters}
                 onChangeFilter={onChangeFilter}
                 cars={cars}
+                onChangeFilterArray={onChangeFilterArray}
               />
             )}
           </Flex>
@@ -222,7 +315,7 @@ export const FilterModal = ({
       >
         {Object.keys(filters).map(
           (key: string, i) =>
-            (isArray(filters[key])
+            (key === ("brand" || "driveModel")
               ? filters[key].length > 0
               : filters[key] !== defaultFilters[key]) && (
               <Flex
@@ -230,25 +323,29 @@ export const FilterModal = ({
                   setShowRemoveAllButton(true);
                 }}
               >
-                <Button
-                  borderRadius={50}
-                  bgColor="#F3F4F6"
-                  p={25}
-                  m={5}
-                  borderWidth={2}
-                  borderColor={"#15304B"}
-                  onClick={() => {
-                    onChangeFilter(key, defaultFilters[key]);
-                  }}
-                >
-                  <Image
-                    style={{ margin: 3, width: 25 }}
-                    alt="close-icon"
-                    src={require("../../assets/close-icon.png")}
-                  />
+                {key === "brand" || key === "driveModel" ? (
+                  displayAppliedFilters(key)
+                ) : (
+                  <Button
+                    borderRadius={50}
+                    bgColor="#F3F4F6"
+                    p={25}
+                    m={5}
+                    borderWidth={2}
+                    borderColor={"#15304B"}
+                    onClick={() => {
+                      onChangeFilter(key, defaultFilters[key]);
+                    }}
+                  >
+                    {displayAppliedFilters(key)}
 
-                  {displayAppliedFilters(key)}
-                </Button>
+                    <Image
+                      style={{ margin: 3, width: 25 }}
+                      alt="close-icon"
+                      src={require("../../assets/close-icon.png")}
+                    />
+                  </Button>
+                )}
               </Flex>
             )
         )}
@@ -267,12 +364,12 @@ export const FilterModal = ({
               setShowRemoveAllButton(false);
             }}
           >
+            Rensa alla
             <Image
               style={{ margin: 3, width: 25 }}
               alt="close-icon"
               src={require("../../assets/close-icon.png")}
             />
-            Rensa alla
           </Button>
         )}
       </Flex>
