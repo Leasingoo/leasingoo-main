@@ -24,7 +24,7 @@ export const CarsList = ({
 }) => {
   const isMobile = useMediaQuery("(max-width:1400px)");
   const router = useRouter();
-  const { sort, minPrice, maxPrice, gearBox, brand, driveModel } = router.query;
+  const { sort, minPrice, maxPrice, gearBox, brand, fuelType } = router.query;
 
   const [cars, setCars] = useState<any[]>([]);
   const [filters, setFilters] = useState<Filters>({
@@ -33,7 +33,7 @@ export const CarsList = ({
     maxPrice: 7500,
     gearBox: "",
     brand: [],
-    driveModel: [],
+    fuelType: [],
   });
   const [paginationLimit, setPaginationLimit] = useState(12);
 
@@ -58,9 +58,7 @@ export const CarsList = ({
       maxPrice: Number(maxPrice ?? 7500),
       gearBox: gearBox?.toString() ?? "",
       brand: brand ? (brand?.toString().split("-") as string[]) : [],
-      driveModel: driveModel
-        ? (driveModel?.toString().split("-") as string[])
-        : [],
+      fuelType: fuelType ? (fuelType?.toString().split("-") as string[]) : [],
     });
   }, [router.query]);
 
@@ -80,10 +78,10 @@ export const CarsList = ({
 
   const filterByDriveModel = useCallback(
     (item: any) =>
-      filters.driveModel?.length
-        ? filters.driveModel?.includes(item["Drivmedel"]?.value)
+      filters.fuelType?.length
+        ? filters.fuelType?.includes(item["Drivmedel"]?.value)
         : item,
-    [filters.driveModel]
+    [filters.fuelType]
   );
 
   const filterByBrand = useCallback(

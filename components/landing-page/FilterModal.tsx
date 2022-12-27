@@ -18,7 +18,7 @@ import DisplayFilter from "../../helpers/filters/DisplayFilter";
 export type Filters = {
   sort?: string;
   gearBox?: string;
-  driveModel?: string[];
+  fuelType?: string[];
   brand?: string[];
   minPrice: number;
   maxPrice: number;
@@ -57,8 +57,15 @@ export const FilterModal = ({
     maxPrice: 7500,
     gearBox: "",
     brand: [],
-    driveModel: [],
+    fuelType: [],
   };
+  const fitleringOrder = [
+    "fuelType",
+    "gearBox",
+    "brand",
+    "minPrice",
+    "maxPrice",
+  ];
 
   const onChangeFilter = (type: string, value: string | number) => {
     setFilters((prevState) => ({ ...prevState, [type]: value }));
@@ -96,7 +103,7 @@ export const FilterModal = ({
         return <Text>{sortingOptions[Number(filters[key])]}</Text>;
       case "gearBox":
         return <Text>{filters[key]}</Text>;
-      case "driveModel":
+      case "fuelType":
         return (
           <>
             {filters[key].map((item: string, idx: number) => (
@@ -158,7 +165,7 @@ export const FilterModal = ({
   useEffect(() => {
     let equalValues: any[] = [];
     Object.keys(filters).forEach((item) => {
-      if (item === "brand" || item === "driveModel") {
+      if (item === "brand" || item === "fuelType") {
         if (filters[item].length === defaultFilters[item].length) {
           equalValues = [...equalValues, item];
         }
@@ -183,7 +190,7 @@ export const FilterModal = ({
     >
       <Flex
         flexDir="row"
-        width={isMobile ? "100%" : "55%"}
+        width={isMobile ? "100%" : "60%"}
         alignItems="center"
         justifyContent="space-between"
         overflowX={isMobile ? "auto" : "hidden"}
@@ -232,6 +239,14 @@ export const FilterModal = ({
           {isMobile && (
             <>
               <Flex flexDir="column" alignItems={"center"}>
+                <Text
+                  mb={-5}
+                  mr={10}
+                  alignSelf={"flex-end"}
+                  color={COLORS.DARK_BLUE}
+                >
+                  Sortera efter
+                </Text>
                 <Button
                   borderRadius={50}
                   bgColor="#F3F4F6"
@@ -247,7 +262,7 @@ export const FilterModal = ({
                     );
                   }}
                 >
-                  <Text>Sortera efter</Text>
+                  <Text>{sortingOptions[Number(filters["sort"])]}</Text>
                 </Button>
               </Flex>
               {selectedFilter === "Sortera efter" && (
@@ -268,6 +283,14 @@ export const FilterModal = ({
 
         {!isMobile && (
           <Flex flexDir="column" alignItems={"center"}>
+            <Text
+              mb={-5}
+              mr={10}
+              alignSelf={"flex-end"}
+              color={COLORS.DARK_BLUE}
+            >
+              Sortera efter
+            </Text>
             <Button
               borderRadius={50}
               bgColor="#F3F4F6"
@@ -281,7 +304,7 @@ export const FilterModal = ({
                 );
               }}
             >
-              <Text>Sortera efter</Text>
+              <Text>{sortingOptions[Number(filters["sort"])]}</Text>
               <Image
                 style={{ margin: 3 }}
                 alt="arrow-down"
@@ -313,42 +336,45 @@ export const FilterModal = ({
         overflowX={isMobile ? "auto" : "hidden"}
         flexWrap={isMobile ? "nowrap" : "wrap"}
       >
-        {Object.keys(filters).map(
-          (key: string, i) =>
-            (key === ("brand" || "driveModel")
-              ? filters[key].length > 0
-              : filters[key] !== defaultFilters[key]) && (
-              <Flex
-                onLoad={() => {
-                  setShowRemoveAllButton(true);
-                }}
-              >
-                {key === "brand" || key === "driveModel" ? (
-                  displayAppliedFilters(key)
-                ) : (
-                  <Button
-                    borderRadius={50}
-                    bgColor="#F3F4F6"
-                    p={25}
-                    m={5}
-                    borderWidth={2}
-                    borderColor={"#15304B"}
-                    onClick={() => {
-                      onChangeFilter(key, defaultFilters[key]);
-                    }}
-                  >
-                    {displayAppliedFilters(key)}
+        {Object.keys(filters)
+          .filter((e) => e !== "sort")
+          .sort((a, b) => fitleringOrder.indexOf(a) - fitleringOrder.indexOf(b))
+          .map(
+            (key: string, i) =>
+              (key === ("brand" || "fuelType")
+                ? filters[key].length > 0
+                : filters[key] !== defaultFilters[key]) && (
+                <Flex
+                  onLoad={() => {
+                    setShowRemoveAllButton(true);
+                  }}
+                >
+                  {key === "brand" || key === "fuelType" ? (
+                    displayAppliedFilters(key)
+                  ) : (
+                    <Button
+                      borderRadius={50}
+                      bgColor="#F3F4F6"
+                      p={25}
+                      m={5}
+                      borderWidth={2}
+                      borderColor={"#15304B"}
+                      onClick={() => {
+                        onChangeFilter(key, defaultFilters[key]);
+                      }}
+                    >
+                      {displayAppliedFilters(key)}
 
-                    <Image
-                      style={{ margin: 3, width: 25 }}
-                      alt="close-icon"
-                      src={require("../../assets/close-icon.png")}
-                    />
-                  </Button>
-                )}
-              </Flex>
-            )
-        )}
+                      <Image
+                        style={{ margin: 3, width: 25 }}
+                        alt="close-icon"
+                        src={require("../../assets/close-icon.png")}
+                      />
+                    </Button>
+                  )}
+                </Flex>
+              )
+          )}
 
         {showRemoveAllButton && (
           <Button

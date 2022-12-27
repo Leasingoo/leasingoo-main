@@ -75,7 +75,7 @@ const DisplayFilter = ({
                 fontWeight={600}
                 borderRadius={10}
                 onClick={() => {
-                  onChangeFilterArray("driveModel", item);
+                  onChangeFilterArray("fuelType", item);
                 }}
                 _hover={{ bgColor: "#F3F4F6" }}
                 cursor="pointer"
@@ -91,7 +91,7 @@ const DisplayFilter = ({
                   borderWidth={2}
                   borderColor={COLORS.DARK_BLUE}
                   bgColor={
-                    filters.driveModel?.includes(item) ? "#15304B" : "#fff"
+                    filters.fuelType?.includes(item) ? "#15304B" : "#fff"
                   }
                 />
               </Flex>
